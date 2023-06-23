@@ -1,0 +1,25 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Device is already configured",
+            "cannot_connect": "KAT's website is down, try again.",
+            "invalid_config": "Invalid EGN or Driver License Number.",
+            "unknown": "Unexpected error"
+        },
+        "error": {
+            "cannot_connect": "Failed to connect",
+            "invalid_auth": "Invalid authentication",
+            "invalid_config": "Invalid EGN or Driver License Number.",
+            "unknown": "Unexpected error"
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "driving_license_number": "Driving license number",
+                    "egn": "Unified Civil Number (EGN)",
+                    "person_name": "Person name"
+                }
+            }
+        }
+    }
+}
