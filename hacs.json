@@ -1,5 +1,6 @@
 {
     "name": "KAT Bulgaria",
     "content_in_root": false,
+    "country": "BG",
     "homeassistant": "2023.02.0b0"
 }
