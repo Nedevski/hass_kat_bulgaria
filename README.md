@@ -17,7 +17,7 @@ For every configured instance, a single entity is created in the format of `glob
 
 Please note that the integration will not show any entities on its screen, you need to go in the entity list in order to find your entity.
 
-![Config flow](docs/config-flow.jpg)
+![Config flow](https://raw.githubusercontent.com/Nedevski/hass_kat_bulgaria/main/docs/config-flow.jpg)
 
 ## Standalone Python library
 
