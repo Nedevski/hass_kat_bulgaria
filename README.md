@@ -23,4 +23,4 @@ Please note that the integration will not show any entities on its screen, you n
 
 The integration uses my [py_kat_bulgaria](https://github.com/Nedevski/py_kat_bulgaria) library.
 
-It's entirely separate from this integration and can be used on its own.
+It's entirely separate from this integration and can be used on its own. Check out its description for more information.
