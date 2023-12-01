@@ -5,9 +5,19 @@ English description is at the bottom!
 ![Last release](https://img.shields.io/github/release-date/nedevski/hacs_kat_bulgaria?style=flat-square)
 ![Code size](https://img.shields.io/github/languages/code-size/nedevski/hacs_kat_bulgaria?style=flat-square)
 
-___
+---
 
 Тази интеграция позволява да се следи дали човек има нови глоби към КАТ България. Интеграцията взима информацията директно от официалния сайт на КАТ ([e-uslugi.mvr.bg](https://e-uslugi.mvr.bg/services/kat-obligations)) без да логва абсолютно нищо. Единственото място на което се пазят данните е локално, като конфигурация на интеграцията.
+
+## Инсталиране
+
+Тъй като това е неофициална интеграция е необходимо първо да се [инсталира HACS](https://hacs.xyz/docs/setup/download) - официалния туул за сваляне на неофициални интеграции и добавки към Home Assistant.
+
+След инсталация, в основното меню ще се появи линк към HACS. В неговата страница има търсачка, която филтрира всички неофициални интеграции - там може да се потърси "KAT Bulgaria" и след отваряне на интеграцията да се свали чрез Download бутона.
+
+**След сваляне е задължително да се рестартира Home Assistant!**
+
+След рестарт се добавя като нормална интеграция: Настройки => Устройства и услуги => Добавяне на интеграция => KAT Bulgaria.
 
 ## Как работи
 
@@ -27,12 +37,23 @@ ___
 
 Библиотеката е изцяло независима от тази интеграция и може да се използва самостоятелно. Повече информация има в нейното `readme.md`.
 
-___
-___
+---
+
+---
 
 ## KAT Bulgaria - a HACS integration for Home Assistant
 
 The KAT Bulgaria custom integration allows users to check if they have any new fines from the Bulgarian Traffic Police (KAT). The integration is a wrapper around the official government website ([e-uslugi.mvr.bg](https://e-uslugi.mvr.bg/services/kat-obligations)).
+
+## Installation
+
+Since this is an unofficial integration, you have to download the [HACS (Home Assistant Community Store)](https://hacs.xyz/docs/setup/download).
+
+After installing it you will have a link to HASS on the left menu. There you can search for "KAT Bulgaria", open the integration and click Download.
+
+**You have to restart Home Assistant in order to be able to see the integration!**
+
+After restarting you add the integration as usual: Settings => Devices and services => Add integration => KAT Bulgaria.
 
 ## How it works
 
