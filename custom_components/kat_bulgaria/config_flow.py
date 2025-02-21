@@ -1,10 +1,11 @@
 """Config flow for KAT Bulgaria integration."""
+
 from __future__ import annotations
 
 import logging
 from typing import Any
 
-from kat_bulgaria.obligations import KatApi, KatErrorType
+from kat_bulgaria.obligations import KatApi, KatErrorType, KatError
 import voluptuous as vol
 
 from homeassistant import config_entries
@@ -43,8 +44,8 @@ class ConfigFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             )
 
         # Init user input values
-        user_egn = user_input[CONF_PERSON_EGN]
         user_name = user_input[CONF_PERSON_NAME]
+        user_egn = user_input[CONF_PERSON_EGN]
         user_license_number = user_input[CONF_DRIVING_LICENSE]
 
         # If this person (EGN) is already configured, abort
@@ -52,20 +53,32 @@ class ConfigFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         self._abort_if_unique_id_configured()
 
         # Verify user creds
-        verify = await KatApi().async_verify_credentials(user_egn, user_license_number)
+        try:
+            creds_valid = await KatApi().validate_credentials(
+                user_egn, user_license_number
+            )
 
-        if not verify.success:
-            if verify.error_type == KatErrorType.VALIDATION_ERROR:
+            if creds_valid is False:
                 errors["base"] = "invalid_config"
-            elif verify.error_type in (
-                KatErrorType.API_UNAVAILABLE,
-                KatErrorType.TIMEOUT,
+
+        except KatError as err:
+            if err.error_type in (
+                KatErrorType.VALIDATION_EGN_INVALID,
+                KatErrorType.VALIDATION_LICENSE_INVALID,
+                KatErrorType.VALIDATION_USER_NOT_FOUND_ONLINE,
+            ):
+                errors["base"] = "invalid_config"
+
+            if err.error_type in (
+                KatErrorType.API_ERROR_READING_DATA,
+                KatErrorType.API_TIMEOUT,
             ):
                 errors["base"] = "cannot_connect"
-            else:
-                msg = f"{verify.error_type}: {verify.error_message}"
-                _LOGGER.error(msg)
 
+            if err.error_type in (
+                KatErrorType.API_UNKNOWN_ERROR,
+                KatErrorType.API_INVALID_SCHEMA,
+            ):
                 errors["base"] = "unknown"
 
             return self.async_show_form(

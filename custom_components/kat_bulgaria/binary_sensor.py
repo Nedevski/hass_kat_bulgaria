@@ -3,7 +3,7 @@
 from datetime import timedelta
 import logging
 
-from kat_bulgaria.obligations import KatApi, KatApiResponse
+from kat_bulgaria.obligations import KatApi, KatObligation, KatError
 
 from homeassistant.components.binary_sensor import BinarySensorEntity
 from homeassistant.config_entries import ConfigEntry
@@ -53,11 +53,11 @@ class KatObligationsSensor(BinarySensorEntity):
     async def async_update(self) -> None:
         """Fetch new state data for the sensor."""
 
-        resp: KatApiResponse[bool] = await self.api.async_check_obligations(
-            self.user_egn, self.user_license_number
-        )
+        try:
+            resp: list[KatObligation] = await self.api.get_obligations(
+                self.user_egn, self.user_license_number
+            )
 
-        if resp.success:
-            self._attr_is_on = resp.data
-        else:
-            _LOGGER.error(resp.error_message)
+            self._attr_is_on = len(resp) > 0
+        except KatError as err:
+            _LOGGER.error(f"{err.error_type} - {err.error_message}")
