@@ -4,10 +4,11 @@ from datetime import timedelta
 import logging
 from typing import Any
 
-from kat_bulgaria.errors import KatError
+from kat_bulgaria.errors import KatError, KatErrorType
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.exceptions import ConfigEntryAuthFailed
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import (
@@ -58,6 +59,16 @@ class KatBulgariaUpdateCoordinator(DataUpdateCoordinator):
             obligations = await self.client.get_obligations()
 
         except KatError as error:
+            if error.error_type in (
+                KatErrorType.VALIDATION_EGN_INVALID,
+                KatErrorType.VALIDATION_LICENSE_INVALID,
+                KatErrorType.VALIDATION_USER_NOT_FOUND_ONLINE,
+            ):
+                raise ConfigEntryAuthFailed(
+                    translation_domain=DOMAIN,
+                    translation_key="invalid_config",
+                ) from error
+
             raise UpdateFailed(
                 translation_domain=DOMAIN,
                 translation_key="update_error",
