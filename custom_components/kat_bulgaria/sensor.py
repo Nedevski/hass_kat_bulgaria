@@ -1,6 +1,6 @@
 """Support for KAT Bulgaria sensors."""
 
-from kat_bulgaria.obligations import KatObligation
+from kat_bulgaria.data_models import KatObligation
 
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.core import HomeAssistant
@@ -62,7 +62,7 @@ class KatBulgariaNotServedTicketCountSensor(KatBulgariaEntity, SensorEntity):
 
     _attr_name = "Count Non-Served"
     _attr_unique_id = "non_served_ticket_count"
-        
+
     _obligations: list[KatObligation]
 
     def __init__(self, coordinator: KatBulgariaUpdateCoordinator) -> None:

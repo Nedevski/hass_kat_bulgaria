@@ -4,13 +4,13 @@ from datetime import timedelta
 import logging
 from typing import Any
 
-from kat_bulgaria.obligations import KatError
+from kat_bulgaria.errors import KatError
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
-from .const import DOMAIN, COORD_DATA_KEY
+from .const import COORD_DATA_KEY, DOMAIN
 from .kat_client import KatClient
 
 type KatBulgariaConfigEntry = ConfigEntry[KatBulgariaUpdateCoordinator]
@@ -36,7 +36,7 @@ class KatBulgariaUpdateCoordinator(DataUpdateCoordinator):
             logger=_LOGGER,
             config_entry=config_entry,
             name=f"KAT - {client.person_name}",
-            update_interval=timedelta(minutes=1),
+            update_interval=timedelta(minutes=30),
         )
         self.client = client
         assert self.config_entry.unique_id

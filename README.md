@@ -21,7 +21,7 @@ English description is at the bottom!
 
 ## Как работи
 
-За всеки конфигуриран потребител, тази интеграция ще създаде единичен [бинарен сензор](/integrations/binary_sensor), който показва дали има чакаща глоба или не. Можете да добавяте колкото инстанции желаете - за всеки нов човек просто добавете нова интеграция. Записите се обновяват на всеки 20 минути.
+За всеки конфигуриран потребител, тази интеграция ще създаде единичен [бинарен сензор](/integrations/binary_sensor), който показва дали има чакаща глоба или не. Можете да добавяте колкото инстанции желаете - за всеки нов човек просто добавете нова интеграция. Записите се обновяват на всеки 30 минути.
 
 За да настроите интеграцията, трябва да дадете име на човек, неговото ЕГН, както и номера на шофьорската му книжка.
 
@@ -57,7 +57,7 @@ After restarting you add the integration as usual: Settings => Devices and servi
 
 ## How it works
 
-For each configured user this integration will create a single [binary_sensor](/integrations/binary_sensor) indicating if you have a fine or not. You can add as many entries as you need. Entries are updated once every 20 minutes.
+For each configured user this integration will create a single [binary_sensor](/integrations/binary_sensor) indicating if you have a fine or not. You can add as many entries as you need. Entries are updated once every 30 minutes.
 
 In order to set up the integration, you need to provide a name, the person's EGN and the person's Driver License Number.
 

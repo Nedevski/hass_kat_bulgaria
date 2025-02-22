@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-from kat_bulgaria.obligations import KatError, KatErrorType
+from kat_bulgaria.errors import KatError, KatErrorType
 import voluptuous as vol
 
 from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
@@ -49,7 +49,7 @@ class ConfigFlowHandler(ConfigFlow, domain=DOMAIN):
 
         # Verify user input
         try:
-            kat_client = KatClient(user_name, user_egn, user_license_number)
+            kat_client = KatClient(self.hass, user_name, user_egn, user_license_number)
             await kat_client.validate_credentials()
         except KatError as err:
             if err.error_type in (

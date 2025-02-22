@@ -1,6 +1,6 @@
 """Base class for KAТ Bulgaria entities."""
 
-from kat_bulgaria.obligations import KatObligation
+from kat_bulgaria.data_models import KatObligation
 
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.update_coordinator import CoordinatorEntity

@@ -1,6 +1,6 @@
 """Support for KAT Bulgaria binary sensors."""
 
-from kat_bulgaria.obligations import KatObligation
+from kat_bulgaria.data_models import KatObligation
 
 from homeassistant.components.binary_sensor import BinarySensorEntity
 from homeassistant.core import HomeAssistant

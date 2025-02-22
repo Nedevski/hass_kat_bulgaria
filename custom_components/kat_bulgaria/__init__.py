@@ -22,7 +22,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: KatBulgariaConfigEntry) 
     person_egn: str = entry.data[CONF_PERSON_EGN]
     license_number: str = entry.data[CONF_DRIVING_LICENSE]
 
-    client = KatClient(person_name, person_egn, license_number)
+    client = KatClient(hass, person_name, person_egn, license_number)
 
     coordinator = KatBulgariaUpdateCoordinator(hass, entry, client)
 
