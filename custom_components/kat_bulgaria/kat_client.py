@@ -3,7 +3,6 @@
 from kat_bulgaria.kat_api_client import KatApiClient
 
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.httpx_client import get_async_client
 
 
 class KatClient:
@@ -31,14 +30,12 @@ class KatClient:
 
     async def validate_credentials(self):
         """Validate EGN/License Number."""
-        async with get_async_client(self.hass) as client:
-            return await self.api.validate_credentials(
-                self.person_egn, self.person_license_number, client
-            )
+        return await self.api.validate_credentials(
+            self.person_egn, self.person_license_number
+        )
 
     async def get_obligations(self):
         """Get obligations."""
-        async with get_async_client(self.hass) as client:
-            return await self.api.get_obligations(
-                self.person_egn, self.person_license_number, client
-            )
+        return await self.api.get_obligations(
+            self.person_egn, self.person_license_number
+        )

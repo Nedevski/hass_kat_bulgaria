@@ -31,15 +31,14 @@ async def async_setup_entry(
 class KatBulgariaHasTicketsBinarySensor(KatBulgariaEntity, BinarySensorEntity):
     """Defines a Total Ticket sensor."""
 
-    _attr_name = "Has Tickets"
-    _attr_unique_id = "has_tickets"
-
     _obligations: list[KatObligation]
 
     def __init__(self, coordinator: KatBulgariaUpdateCoordinator) -> None:
         """Initialize the sensor."""
         super().__init__(coordinator)
         self._obligations = coordinator.data[COORD_DATA_KEY]
+        self._attr_name = "Has Tickets"
+        self._attr_unique_id += "has_tickets"
 
     @property
     def is_on(self) -> bool:
@@ -55,15 +54,14 @@ class KatBulgariaHasTicketsBinarySensor(KatBulgariaEntity, BinarySensorEntity):
 class KatBulgariaHasNonServedTicketsBinarySensor(KatBulgariaEntity, BinarySensorEntity):
     """Defines a Non Served Ticket sensor."""
 
-    _attr_name = "Has Non-Served Tickets"
-    _attr_unique_id = "has_non_served_tickets"
-
     _obligations: list[KatObligation]
 
     def __init__(self, coordinator: KatBulgariaUpdateCoordinator) -> None:
         """Initialize the sensor."""
         super().__init__(coordinator)
         self._obligations = coordinator.data[COORD_DATA_KEY]
+        self._attr_name = "Has Non-Served Tickets"
+        self._attr_unique_id += "has_non_served_tickets"
 
     @property
     def is_on(self) -> bool:

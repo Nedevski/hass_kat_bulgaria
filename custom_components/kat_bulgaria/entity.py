@@ -1,7 +1,5 @@
 """Base class for KAТ Bulgaria entities."""
 
-from kat_bulgaria.data_models import KatObligation
-
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -14,13 +12,11 @@ class KatBulgariaEntity(CoordinatorEntity[KatBulgariaUpdateCoordinator]):
 
     _attr_has_entity_name = True
 
-    obligations: list[KatObligation]
-
     def __init__(self, coordinator: KatBulgariaUpdateCoordinator) -> None:
         """Initialize airgradient entity."""
 
         super().__init__(coordinator)
-        self.obligations = coordinator.data["obligations"]
+        self._attr_unique_id: str = coordinator.client.person_egn
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, coordinator.serial_number)},
             manufacturer="KAT Bulgaria",

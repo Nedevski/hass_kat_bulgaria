@@ -32,15 +32,14 @@ async def async_setup_entry(
 class KatBulgariaTotalTicketCountSensor(KatBulgariaEntity, SensorEntity):
     """Defines a Total Ticket Count sensor."""
 
-    _attr_name = "Count Total"
-    _attr_unique_id = "total_ticket_count"
-
     _obligations: list[KatObligation]
 
     def __init__(self, coordinator: KatBulgariaUpdateCoordinator) -> None:
         """Initialize the sensor."""
         super().__init__(coordinator)
         self._obligations = coordinator.data[COORD_DATA_KEY]
+        self._attr_name = "Count Total"
+        self._attr_unique_id += "total_ticket_count"
 
     @property
     def native_value(self) -> int:
@@ -60,15 +59,14 @@ class KatBulgariaTotalTicketCountSensor(KatBulgariaEntity, SensorEntity):
 class KatBulgariaNotServedTicketCountSensor(KatBulgariaEntity, SensorEntity):
     """Defines a Total Ticket Count sensor."""
 
-    _attr_name = "Count Non-Served"
-    _attr_unique_id = "non_served_ticket_count"
-
     _obligations: list[KatObligation]
 
     def __init__(self, coordinator: KatBulgariaUpdateCoordinator) -> None:
         """Initialize the sensor."""
         super().__init__(coordinator)
         self._obligations = coordinator.data[COORD_DATA_KEY]
+        self._attr_name = "Count Non-Served"
+        self._attr_unique_id += "non_served_ticket_count"
 
     @property
     def native_value(self) -> int:
@@ -79,15 +77,14 @@ class KatBulgariaNotServedTicketCountSensor(KatBulgariaEntity, SensorEntity):
 class KatBulgariaTotalTicketAmountSensor(KatBulgariaEntity, SensorEntity):
     """Defines a Total Ticket Amount sensor."""
 
-    _attr_name = "Total BGN Owed"
-    _attr_unique_id = "total_ticket_amount_owed"
-
     _obligations: list[KatObligation]
 
     def __init__(self, coordinator: KatBulgariaUpdateCoordinator) -> None:
         """Initialize the sensor."""
         super().__init__(coordinator)
         self._obligations = coordinator.data[COORD_DATA_KEY]
+        self._attr_name = "Total BGN Owed"
+        self._attr_unique_id += "total_ticket_amount_owed"
 
     @property
     def native_value(self) -> int:
