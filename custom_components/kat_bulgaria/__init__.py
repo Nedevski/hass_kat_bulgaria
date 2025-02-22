@@ -10,7 +10,7 @@ from .coordinator import KatBulgariaConfigEntry, KatBulgariaUpdateCoordinator
 from .kat_client import KatClient
 
 PLATFORMS: list[Platform] = [
-    # Platform.BINARY_SENSOR,
+    Platform.BINARY_SENSOR,
     Platform.SENSOR,
 ]
 

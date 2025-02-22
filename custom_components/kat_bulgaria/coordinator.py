@@ -10,7 +10,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
-from .const import DOMAIN
+from .const import DOMAIN, COORD_DATA_KEY
 from .kat_client import KatClient
 
 type KatBulgariaConfigEntry = ConfigEntry[KatBulgariaUpdateCoordinator]
@@ -53,4 +53,4 @@ class KatBulgariaUpdateCoordinator(DataUpdateCoordinator):
                 translation_placeholders={"error": str(error)},
             ) from error
 
-        return {"obligations": obligations}
+        return {COORD_DATA_KEY: obligations}
