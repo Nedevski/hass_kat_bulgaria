@@ -5,9 +5,7 @@ from __future__ import annotations
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 
-from .const import CONF_DRIVING_LICENSE, CONF_PERSON_EGN, CONF_PERSON_NAME
 from .coordinator import KatBulgariaConfigEntry, KatBulgariaUpdateCoordinator
-from .kat_client import KatClient
 
 PLATFORMS: list[Platform] = [
     Platform.BINARY_SENSOR,
@@ -18,18 +16,10 @@ PLATFORMS: list[Platform] = [
 async def async_setup_entry(hass: HomeAssistant, entry: KatBulgariaConfigEntry) -> bool:
     """Set up KAT Bulgaria from a config entry."""
 
-    person_name: str = entry.data[CONF_PERSON_NAME]
-    person_egn: str = entry.data[CONF_PERSON_EGN]
-    license_number: str = entry.data[CONF_DRIVING_LICENSE]
-
-    client = KatClient(hass, person_name, person_egn, license_number)
-
-    coordinator = KatBulgariaUpdateCoordinator(hass, entry, client)
-
+    coordinator = KatBulgariaUpdateCoordinator(hass, entry)
     await coordinator.async_config_entry_first_refresh()
 
     entry.runtime_data = coordinator
-
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
     return True

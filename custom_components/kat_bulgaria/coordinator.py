@@ -10,7 +10,13 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
-from .const import COORD_DATA_KEY, DOMAIN
+from .const import (
+    CONF_DRIVING_LICENSE,
+    CONF_PERSON_EGN,
+    CONF_PERSON_NAME,
+    COORD_DATA_KEY,
+    DOMAIN,
+)
 from .kat_client import KatClient
 
 type KatBulgariaConfigEntry = ConfigEntry[KatBulgariaUpdateCoordinator]
@@ -28,19 +34,24 @@ class KatBulgariaUpdateCoordinator(DataUpdateCoordinator):
         self,
         hass: HomeAssistant,
         config_entry: KatBulgariaConfigEntry,
-        client: KatClient,
     ) -> None:
         """Initialize coordinator."""
+
+        person_name: str = config_entry.data[CONF_PERSON_NAME]
+        person_egn: str = config_entry.data[CONF_PERSON_EGN]
+        license_number: str = config_entry.data[CONF_DRIVING_LICENSE]
+
         super().__init__(
             hass,
             logger=_LOGGER,
             config_entry=config_entry,
-            name=f"KAT - {client.person_name}",
+            name=f"KAT - {person_name}",
             update_interval=timedelta(minutes=30),
         )
-        self.client = client
+
         assert self.config_entry.unique_id
         self.serial_number = self.config_entry.unique_id
+        self.client = KatClient(hass, person_name, person_egn, license_number)
 
     async def _async_update_data(self) -> dict[str, Any]:
         try:
