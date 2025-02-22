@@ -1,6 +1,6 @@
 """Support for KAT Bulgaria sensors."""
 
-from typing import Any
+from kat_bulgaria.obligations import KatObligation
 
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.core import HomeAssistant
@@ -31,31 +31,26 @@ class KatBulgariaTicketCountSensor(KatBulgariaEntity, SensorEntity):
     # _attr_icon = "mdi:cash-fast"
     # _attr_unit_of_measurement = "BGN"
 
+    _obligations: list[KatObligation]
+
     def __init__(self, coordinator: KatBulgariaUpdateCoordinator) -> None:
         """Initialize the sensor."""
 
         super().__init__(coordinator)
         self._attr_entity_registry_enabled_default = True
 
-    @property
-    def state(self) -> int:
-        """Return the state of the sensor."""
-        return len(self.obligations)
+        self._obligations = coordinator.data["obligations"]
 
     @property
-    def extra_state_attributes(self) -> dict[str, Any]:
-        """Return the state attributes."""
+    def native_value(self) -> int:
+        """Return the state of the entity."""
+        return len(self._obligations)
+
+    @property
+    def extra_state_attributes(self) -> dict[str, str]:
+        """Return the extra state attributes."""
         return {
-            "total_amount": sum([obligation.amount for obligation in self.obligations]),
-            "obligations": [
-                {
-                    "full_amount": obligation.amount,
-                    "discounted_amount": obligation.discounted_amount,
-                    "description": obligation.description,
-                    "issued_at": obligation.date_issued,
-                    "breached_at": obligation.date_breach,
-                    "is_served": obligation.is_served,
-                }
-                for obligation in self.obligations
-            ],
+            "total_amount": str(
+                sum([obligation.amount for obligation in self._obligations])
+            )
         }

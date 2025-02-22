@@ -20,7 +20,7 @@ class KatBulgariaEntity(CoordinatorEntity[KatBulgariaUpdateCoordinator]):
         """Initialize airgradient entity."""
 
         super().__init__(coordinator)
-        self.obligations = coordinator.data
+        self.obligations = coordinator.data["obligations"]
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, coordinator.serial_number)},
             manufacturer="KAT Bulgaria",

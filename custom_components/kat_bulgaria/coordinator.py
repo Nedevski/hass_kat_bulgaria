@@ -2,8 +2,9 @@
 
 from datetime import timedelta
 import logging
+from typing import Any
 
-from kat_bulgaria.obligations import KatError, KatObligation
+from kat_bulgaria.obligations import KatError
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
@@ -41,7 +42,7 @@ class KatBulgariaUpdateCoordinator(DataUpdateCoordinator):
         assert self.config_entry.unique_id
         self.serial_number = self.config_entry.unique_id
 
-    async def _async_update_data(self) -> list[KatObligation]:
+    async def _async_update_data(self) -> dict[str, Any]:
         try:
             obligations = await self.client.get_obligations()
 
@@ -52,4 +53,4 @@ class KatBulgariaUpdateCoordinator(DataUpdateCoordinator):
                 translation_placeholders={"error": str(error)},
             ) from error
 
-        return obligations
+        return {"obligations": obligations}
