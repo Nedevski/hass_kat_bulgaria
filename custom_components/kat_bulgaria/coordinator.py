@@ -64,11 +64,16 @@ class KatBulgariaUpdateCoordinator(DataUpdateCoordinator):
                 KatErrorType.VALIDATION_LICENSE_INVALID,
                 KatErrorType.VALIDATION_USER_NOT_FOUND_ONLINE,
             ):
+                _LOGGER.warning(
+                    "Invalid KAT API credentials, unable to update: %s",
+                    error.error_type,
+                )
                 raise ConfigEntryAuthFailed(
                     translation_domain=DOMAIN,
                     translation_key="invalid_config",
                 ) from error
 
+            _LOGGER.warning("KAT API down, unable to update: %s", error.error_type)
             raise UpdateFailed(
                 translation_domain=DOMAIN,
                 translation_key="update_error",

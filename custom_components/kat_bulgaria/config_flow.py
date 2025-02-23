@@ -57,6 +57,9 @@ class ConfigFlowHandler(ConfigFlow, domain=DOMAIN):
                 KatErrorType.VALIDATION_LICENSE_INVALID,
                 KatErrorType.VALIDATION_USER_NOT_FOUND_ONLINE,
             ):
+                _LOGGER.warning(
+                    "Invalid credentials, unable to setup: %s", err.error_type
+                )
                 errors["base"] = "invalid_config"
 
             if err.error_type in (
@@ -65,6 +68,7 @@ class ConfigFlowHandler(ConfigFlow, domain=DOMAIN):
                 KatErrorType.API_INVALID_SCHEMA,
                 KatErrorType.API_UNKNOWN_ERROR,
             ):
+                _LOGGER.warning("KAT API down, unable to setup: %s", err.error_type)
                 errors["base"] = "cannot_connect"
 
         # If this person (EGN) is already configured, abort
