@@ -1,63 +1,76 @@
-"""Binary sensor platform."""
+"""Support for KAT Bulgaria binary sensors."""
 
-from datetime import timedelta
-import logging
-
-from kat_bulgaria.obligations import KatApi, KatApiResponse
+from kat_bulgaria.data_models import KatObligation
 
 from homeassistant.components.binary_sensor import BinarySensorEntity
-from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
-from .common import generate_entity_name
-from .const import CONF_DRIVING_LICENSE, CONF_PERSON_EGN, CONF_PERSON_NAME, DOMAIN
-
-SCAN_INTERVAL = timedelta(minutes=20)
-_LOGGER = logging.getLogger(__name__)
+from .const import COORD_DATA_KEY
+from .coordinator import KatBulgariaConfigEntry, KatBulgariaUpdateCoordinator
+from .entity import KatBulgariaEntity
 
 
 async def async_setup_entry(
     hass: HomeAssistant,
-    entry: ConfigEntry,
-    async_add_entities: AddEntitiesCallback,
+    entry: KatBulgariaConfigEntry,
+    async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
-    """Set up the platform from config_entry."""
+    """Set up KAT Bulgaria binary sensors based on a config entry."""
 
-    person_name: str = entry.data[CONF_PERSON_NAME]
-    person_egn: str = entry.data[CONF_PERSON_EGN]
-    license_number: str = entry.data[CONF_DRIVING_LICENSE]
-
-    api: KatApi = hass.data[DOMAIN][entry.entry_id]
+    coordinator = entry.runtime_data
 
     async_add_entities(
-        [KatObligationsSensor(api, person_name, person_egn, license_number)], True
+        [
+            KatBulgariaHasTicketsBinarySensor(coordinator),
+            KatBulgariaHasNonServedTicketsBinarySensor(coordinator),
+        ],
     )
 
 
-class KatObligationsSensor(BinarySensorEntity):
-    """A simple sensor."""
+class KatBulgariaHasTicketsBinarySensor(KatBulgariaEntity, BinarySensorEntity):
+    """Defines a Total Ticket sensor."""
 
-    _attr_has_entity_name = True
+    _obligations: list[KatObligation]
 
-    def __init__(self, api: KatApi, name: str, egn: str, license_number: str) -> None:
+    def __init__(self, coordinator: KatBulgariaUpdateCoordinator) -> None:
         """Initialize the sensor."""
+        super().__init__(coordinator)
+        self._obligations = coordinator.data[COORD_DATA_KEY]
+        self._attr_name = "Has Tickets"
+        self._attr_unique_id += "has_tickets"
+        self._attr_translation_key = "has_tickets"
 
-        self.api = api
+    @property
+    def is_on(self) -> bool:
+        """Return the state of the entity."""
+        return len(self._obligations) != 0
 
-        self.user_egn = egn
-        self.user_license_number = license_number
+    @property
+    def icon(self) -> str | None:
+        """Return the icon to use in the frontend."""
+        return "mdi:cash-fast" if self.is_on else "mdi:cash-off"
 
-        self._attr_name = generate_entity_name(name)
 
-    async def async_update(self) -> None:
-        """Fetch new state data for the sensor."""
+class KatBulgariaHasNonServedTicketsBinarySensor(KatBulgariaEntity, BinarySensorEntity):
+    """Defines a Non Served Ticket sensor."""
 
-        resp: KatApiResponse[bool] = await self.api.async_check_obligations(
-            self.user_egn, self.user_license_number
-        )
+    _obligations: list[KatObligation]
 
-        if resp.success:
-            self._attr_is_on = resp.data
-        else:
-            _LOGGER.error(resp.error_message)
+    def __init__(self, coordinator: KatBulgariaUpdateCoordinator) -> None:
+        """Initialize the sensor."""
+        super().__init__(coordinator)
+        self._obligations = coordinator.data[COORD_DATA_KEY]
+        self._attr_name = "Has Non-Served Tickets"
+        self._attr_unique_id += "has_non_served_tickets"
+        self._attr_translation_key = "has_non_served_tickets"
+
+    @property
+    def is_on(self) -> bool:
+        """Return the state of the entity."""
+        return sum([obligation.is_served for obligation in self._obligations]) != 0
+
+    @property
+    def icon(self) -> str | None:
+        """Return the icon to use in the frontend."""
+        return "mdi:cash-fast" if self.is_on else "mdi:cash-off"
