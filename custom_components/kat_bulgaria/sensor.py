@@ -4,8 +4,10 @@ from kat_bulgaria.data_models import KatObligation
 
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
-
+from homeassistant.helpers.entity_platform import (
+    AddConfigEntryEntitiesCallback,
+    AddEntitiesCallback,
+)
 from .const import COORD_DATA_KEY
 from .coordinator import KatBulgariaConfigEntry, KatBulgariaUpdateCoordinator
 from .entity import KatBulgariaEntity
@@ -14,7 +16,7 @@ from .entity import KatBulgariaEntity
 async def async_setup_entry(
     hass: HomeAssistant,
     entry: KatBulgariaConfigEntry,
-    async_add_entities: AddConfigEntryEntitiesCallback,
+    async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up KAT Bulgaria sensors based on a config entry."""
 
