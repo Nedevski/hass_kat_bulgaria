@@ -39,6 +39,7 @@ class KatBulgariaHasTicketsBinarySensor(KatBulgariaEntity, BinarySensorEntity):
         self._obligations = coordinator.data[COORD_DATA_KEY]
         self._attr_name = "Has Tickets"
         self._attr_unique_id += "has_tickets"
+        self._attr_translation_key = "has_tickets"
 
     @property
     def is_on(self) -> bool:
@@ -62,6 +63,7 @@ class KatBulgariaHasNonServedTicketsBinarySensor(KatBulgariaEntity, BinarySensor
         self._obligations = coordinator.data[COORD_DATA_KEY]
         self._attr_name = "Has Non-Served Tickets"
         self._attr_unique_id += "has_non_served_tickets"
+        self._attr_translation_key = "has_non_served_tickets"
 
     @property
     def is_on(self) -> bool:

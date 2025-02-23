@@ -8,7 +8,6 @@
         },
         "error": {
             "cannot_connect": "Неуспешно свързване",
-            "invalid_auth": "Невалидна аутентикация",
             "invalid_config": "Невалидно ЕГН или номер на шофьорска книжка.",
             "unknown": "Неочаквана грешка."
         },
@@ -19,6 +18,27 @@
                     "egn": "ЕГН",
                     "person_name": "Име"
                 }
+            }
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "has_non_served_tickets": {
+                "name": "Има Невръчени Глоби"
+            },
+            "has_tickets": {
+                "name": "Има Глоби"
+            }
+        },
+        "sensor": {
+            "non_served_ticket_count": {
+                "name": "Брой Невръчени Глоби"
+            },
+            "total_ticket_count": {
+                "name": "Общ Брой Глоби"
+            },
+            "total_ticket_amount_owed": {
+                "name": "Обща дължима сума"
             }
         }
     }

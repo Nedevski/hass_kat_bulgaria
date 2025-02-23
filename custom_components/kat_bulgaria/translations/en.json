@@ -1,16 +1,15 @@
 {
     "config": {
         "abort": {
-            "already_configured": "This person is already configured",
+            "already_configured": "Device is already configured.",
             "cannot_connect": "KAT's website is down, try again.",
             "invalid_config": "Invalid EGN or Driver License Number.",
-            "unknown": "Unexpected error"
+            "unknown": "Unknown error, check the logs for more details."
         },
         "error": {
-            "cannot_connect": "Failed to connect",
-            "invalid_auth": "Invalid authentication",
+            "cannot_connect": "KAT's website is down, try again.",
             "invalid_config": "Invalid EGN or Driver License Number.",
-            "unknown": "Unexpected error"
+            "unknown": "Unknown error, check the logs for more details."
         },
         "step": {
             "user": {
@@ -19,6 +18,27 @@
                     "egn": "Unified Civil Number (EGN)",
                     "person_name": "Person name"
                 }
+            }
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "has_non_served_tickets": {
+                "name": "Has Non-Served Tickets"
+            },
+            "has_tickets": {
+                "name": "Has Tickets"
+            }
+        },
+        "sensor": {
+            "non_served_ticket_count": {
+                "name": "Count Non-Served"
+            },
+            "total_ticket_amount_owed": {
+                "name": "Total BGN Owed"
+            },
+            "total_ticket_count": {
+                "name": "Count Total"
             }
         }
     }

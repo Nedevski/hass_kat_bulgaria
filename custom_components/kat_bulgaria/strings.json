@@ -20,5 +20,26 @@
       "invalid_config": "Invalid EGN or Driver License Number.",
       "unknown": "Unknown error, check the logs for more details."
     }
+  },
+  "entity": {
+    "binary_sensor": {
+      "has_tickets": {
+        "name": "Has Tickets"
+      },
+      "has_non_served_tickets": {
+        "name": "Has Non-Served Tickets"
+      }
+    },
+    "sensor": {
+      "total_ticket_count": {
+        "name": "Count Total"
+      },
+      "non_served_ticket_count": {
+        "name": "Count Non-Served"
+      },
+      "total_ticket_amount_owed": {
+        "name": "Total BGN Owed"
+      }
+    }
   }
 }
