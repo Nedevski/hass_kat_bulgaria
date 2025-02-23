@@ -2,6 +2,6 @@
     "name": "KAT Bulgaria",
     "content_in_root": false,
     "country": "BG",
-    "homeassistant": "2023.02.0b0",
+    "homeassistant": "2025.01.0b0",
     "render_readme": true
 }

@@ -25,6 +25,8 @@ English description is at the bottom!
 
 За да настроите интеграцията, трябва да дадете име на човек, неговото ЕГН, както и номера на шофьорската му книжка.
 
+![Config flow](https://raw.githubusercontent.com/Nedevski/hass_kat_bulgaria/main/docs/config-flow-en.jpg)
+
 За всяка конфигурирана инстанция се създават няколко entities:
 
 - Има ли глоби (binary_sensor)
@@ -32,8 +34,6 @@ English description is at the bottom!
 - Общ брой глоби (sensor, int)
 - Брой невръчени глоби (sensor, int)
 - Обща дължима сума (sensor, int) - взима предвид активните отстъпки
-
-![Config flow](https://raw.githubusercontent.com/Nedevski/hass_kat_bulgaria/main/docs/config-flow-en.jpg)
 
 ## Python библиотека
 
@@ -65,6 +65,8 @@ For each configured user this integration will create a single [binary_sensor](/
 
 In order to set up the integration, you need to provide a name, the person's EGN and the person's Driver License Number.
 
+![Config flow](https://raw.githubusercontent.com/Nedevski/hass_kat_bulgaria/main/docs/config-flow-en.jpg)
+
 For each configured instance, a couple of entities are created:
 
 - Has Tickets (binary_sensor)
@@ -72,8 +74,6 @@ For each configured instance, a couple of entities are created:
 - Count Total (sensor, int) - total count of existing fines
 - Count Non-Served (sensor, int) - total count of non-served fines
 - Total BGN Owed (sensor, int) - the total sum that needs to be paid, which takes into account the active discounts for early payment
-
-![Config flow](https://raw.githubusercontent.com/Nedevski/hass_kat_bulgaria/main/docs/config-flow-en.jpg)
 
 ## Standalone Python library
 
