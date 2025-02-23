@@ -21,19 +21,17 @@ English description is at the bottom!
 
 ## Как работи
 
-За всеки конфигуриран потребител, тази интеграция ще създаде единичен [бинарен сензор](/integrations/binary_sensor), който показва дали има чакаща глоба или не. Можете да добавяте колкото инстанции желаете - за всеки нов човек просто добавете нова интеграция. Записите се обновяват на всеки 30 минути.
-
 За да настроите интеграцията, трябва да дадете име на човек, неговото ЕГН, както и номера на шофьорската му книжка.
 
 ![Config flow](https://raw.githubusercontent.com/Nedevski/hass_kat_bulgaria/main/docs/config-flow-en.jpg)
 
-За всяка конфигурирана инстанция се създават няколко entities:
+За всяка конфигуриран потребител се създават няколко entities, които се обновяват на всеки 30 минути:
 
-- Има ли глоби (binary_sensor)
-- Има ли невръчени глоби (binary_sensor)
-- Общ брой глоби (sensor, int)
-- Брой невръчени глоби (sensor, int)
-- Обща дължима сума (sensor, int) - взима предвид активните отстъпки
+- Има ли глоби ([бинарен сензор](https://www.home-assistant.io/integrations/binary_sensor/))
+- Има ли невръчени глоби ([бинарен сензор](https://www.home-assistant.io/integrations/binary_sensor/))
+- Общ брой глоби ([сензор, int](https://www.home-assistant.io/integrations/binary_sensor/))
+- Брой невръчени глоби ([сензор, int](https://www.home-assistant.io/integrations/binary_sensor/))
+- Обща дължима сума ([сензор, int](https://www.home-assistant.io/integrations/binary_sensor/)) - взима предвид активните отстъпки
 
 ## Python библиотека
 
@@ -61,19 +59,17 @@ After restarting you add the integration as usual: Settings => Devices and servi
 
 ## How it works
 
-For each configured user this integration will create a single [binary_sensor](/integrations/binary_sensor) indicating if you have a fine or not. You can add as many entries as you need. Entries are updated once every 30 minutes.
-
 In order to set up the integration, you need to provide a name, the person's EGN and the person's Driver License Number.
 
 ![Config flow](https://raw.githubusercontent.com/Nedevski/hass_kat_bulgaria/main/docs/config-flow-en.jpg)
 
-For each configured instance, a couple of entities are created:
+For each configured instance, a couple of entities are created and updated every 30 minutes:
 
-- Has Tickets (binary_sensor)
-- Has Non-Served Tickets (binary_sensor)
-- Count Total (sensor, int) - total count of existing fines
-- Count Non-Served (sensor, int) - total count of non-served fines
-- Total BGN Owed (sensor, int) - the total sum that needs to be paid, which takes into account the active discounts for early payment
+- Has Tickets ([binary_sensor](https://www.home-assistant.io/integrations/binary_sensor/))
+- Has Non-Served Tickets ([binary_sensor](https://www.home-assistant.io/integrations/binary_sensor/))
+- Count Total ([sensor, int](https://www.home-assistant.io/integrations/binary_sensor/)) - total count of existing fines
+- Count Non-Served ([sensor, int](https://www.home-assistant.io/integrations/binary_sensor/)) - total count of non-served fines
+- Total BGN Owed ([sensor, int](https://www.home-assistant.io/integrations/binary_sensor/)) - the total sum that needs to be paid, which takes into account the active discounts for early payment
 
 ## Standalone Python library
 
