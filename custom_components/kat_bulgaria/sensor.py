@@ -4,10 +4,8 @@ from kat_bulgaria.data_models import KatObligation
 
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.entity_platform import (
-    AddConfigEntryEntitiesCallback,
-    AddEntitiesCallback,
-)
+from homeassistant.helpers.entity_platform import AddEntitiesCallback
+
 from .const import COORD_DATA_KEY
 from .coordinator import KatBulgariaConfigEntry, KatBulgariaUpdateCoordinator
 from .entity import KatBulgariaEntity
