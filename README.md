@@ -1,6 +1,6 @@
 # КАТ България - HACS интеграция за Home Assistant
 
-English description is at the bottom!
+For English description scroll to the bottom!
 
 ![Last release](https://img.shields.io/github/release-date/nedevski/hacs_kat_bulgaria?style=flat-square)
 ![Code size](https://img.shields.io/github/languages/code-size/nedevski/hacs_kat_bulgaria?style=flat-square)
@@ -9,7 +9,13 @@ English description is at the bottom!
 
 Тази интеграция позволява да се следи дали човек има нови глоби към КАТ България. Интеграцията взима информацията директно от официалния сайт на КАТ ([e-uslugi.mvr.bg](https://e-uslugi.mvr.bg/services/kat-obligations)) без да логва абсолютно нищо. Единственото място на което се пазят данните е локално, като конфигурация на интеграцията.
 
-## Инсталиране
+---
+
+Ако харесвате работата ми, почерпете ме с 1 бира в Ko-Fi:
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/nedevski/tip)
+
+## Инсталация
 
 Тъй като това е неофициална интеграция е необходимо първо да се [инсталира HACS](https://hacs.xyz/docs/setup/download) - официалния туул за сваляне на неофициални интеграции и добавки към Home Assistant.
 
@@ -46,6 +52,12 @@ English description is at the bottom!
 ## KAT Bulgaria - a HACS integration for Home Assistant
 
 The KAT Bulgaria custom integration allows users to check if they have any new fines from the Bulgarian Traffic Police (KAT). The integration is a wrapper around the official government website ([e-uslugi.mvr.bg](https://e-uslugi.mvr.bg/services/kat-obligations)).
+
+---
+
+If you like my work - consider supporting me:
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/nedevski/tip)
 
 ## Installation
 
