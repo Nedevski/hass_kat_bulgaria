@@ -3,5 +3,7 @@
     "content_in_root": false,
     "country": "BG",
     "homeassistant": "2025.01.0b0",
-    "render_readme": true
+    "render_readme": true,
+    "zip_release": true,
+    "filename": "hass_kat_bulgaria.zip"
 }
