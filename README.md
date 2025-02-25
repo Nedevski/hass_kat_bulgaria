@@ -29,7 +29,7 @@ For English description scroll to the bottom!
 
 За да настроите интеграцията, трябва да дадете име на човек, неговото ЕГН, както и номера на шофьорската му книжка.
 
-![Config flow](https://raw.githubusercontent.com/Nedevski/hass_kat_bulgaria/main/docs/config-flow-en.jpg)
+![Config flow](https://raw.githubusercontent.com/Nedevski/hass_kat_bulgaria/main/docs/config-flow-bg.jpg)
 
 За всяка конфигуриран потребител се създават няколко entities, които се обновяват на всеки 30 минути:
 
