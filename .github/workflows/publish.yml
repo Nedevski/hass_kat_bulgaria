@@ -22,8 +22,7 @@ jobs:
 
       - name: "Zip component"
         run: |
-          cd kat_bulgaria
-          zip hass_kat_bulgaria.zip -r ./
+          zip hass_kat_bulgaria.zip -r ./kat_bulgaria/
 
       - name: "Upload assets"
         env:
