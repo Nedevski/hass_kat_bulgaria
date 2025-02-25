@@ -4,6 +4,10 @@ on:
   release:
     types: [published]
 
+defaults:
+  run:
+    working-directory: custom_components
+
 jobs:
   publish:
     name: "Publish"
@@ -18,8 +22,7 @@ jobs:
 
       - name: "Zip component"
         run: |
-          cd "${{ github.workspace }}/custom_components/kat_bulgaria"
-          zip hass_kat_bulgaria.zip -r ./
+          zip hass_kat_bulgaria.zip -r ./kat_bulgaria
 
       - name: "Upload assets"
         env:
