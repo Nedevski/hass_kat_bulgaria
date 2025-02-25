@@ -6,7 +6,7 @@ on:
 
 defaults:
   run:
-    working-directory: custom_components
+    working-directory: custom_components/kat_bulgaria
 
 jobs:
   publish:
@@ -22,7 +22,8 @@ jobs:
 
       - name: "Zip component"
         run: |
-          zip hass_kat_bulgaria.zip -r ./kat_bulgaria
+          cd kat_bulgaria
+          zip hass_kat_bulgaria.zip -r ./
 
       - name: "Upload assets"
         env:
