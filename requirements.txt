@@ -2,4 +2,4 @@ build
 wheel
 kat_bulgaria>=1.0.4
 voluptuous>=0.15.2
-homeassistant>=2025.2.0
+homeassistant>=2025.1.0
