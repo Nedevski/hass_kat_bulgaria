@@ -1,0 +1,16 @@
+{
+  "obligationsData": [
+    {
+      "unitGroup": 1,
+      "errorNoDataFound": false,
+      "errorReadingData": true,
+      "obligations": []
+    },
+    {
+      "unitGroup": 2,
+      "errorNoDataFound": false,
+      "errorReadingData": false,
+      "obligations": []
+    }
+  ]
+}
