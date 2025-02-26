@@ -2,7 +2,10 @@
 
 from kat_bulgaria.data_models import KatObligation
 
-from homeassistant.components.binary_sensor import BinarySensorEntity
+from homeassistant.components.binary_sensor import (
+    BinarySensorEntity,
+    BinarySensorDeviceClass,
+)
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
@@ -37,7 +40,7 @@ class KatBulgariaHasTicketsBinarySensor(KatBulgariaEntity, BinarySensorEntity):
         """Initialize the sensor."""
         super().__init__(coordinator)
         self._obligations = coordinator.data[COORD_DATA_KEY]
-        self._attr_name = "Has Tickets"
+        self._attr_device_class = BinarySensorDeviceClass.PROBLEM
         self._attr_unique_id += "has_tickets"
         self._attr_translation_key = "has_tickets"
 
@@ -61,7 +64,7 @@ class KatBulgariaHasNonServedTicketsBinarySensor(KatBulgariaEntity, BinarySensor
         """Initialize the sensor."""
         super().__init__(coordinator)
         self._obligations = coordinator.data[COORD_DATA_KEY]
-        self._attr_name = "Has Non-Served Tickets"
+        self._attr_device_class = BinarySensorDeviceClass.PROBLEM
         self._attr_unique_id += "has_non_served_tickets"
         self._attr_translation_key = "has_non_served_tickets"
 

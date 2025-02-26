@@ -24,18 +24,26 @@
     "entity": {
         "binary_sensor": {
             "has_non_served_tickets": {
-                "name": "Има Невръчени Глоби"
+                "name": "Невръчени Глоби?",
+                "state": {
+                    "on": "Да",
+                    "off": "Не"
+                }
             },
             "has_tickets": {
-                "name": "Има Глоби"
+                "name": "Налични глоби?",
+                "state": {
+                    "on": "Да",
+                    "off": "Не"
+                }
             }
         },
         "sensor": {
-            "non_served_ticket_count": {
-                "name": "Брой Невръчени Глоби"
-            },
             "total_ticket_count": {
-                "name": "Общ Брой Глоби"
+                "name": "Брой глоби"
+            },
+            "non_served_ticket_count": {
+                "name": "Брой невръчени глоби"
             },
             "total_ticket_amount_owed": {
                 "name": "Обща дължима сума"

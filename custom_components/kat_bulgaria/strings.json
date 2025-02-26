@@ -24,10 +24,18 @@
   "entity": {
     "binary_sensor": {
       "has_tickets": {
-        "name": "Has Tickets"
+        "name": "Has Tickets",
+        "state": {
+          "on": "Yes",
+          "off": "No"
+        }
       },
       "has_non_served_tickets": {
-        "name": "Has Non-Served Tickets"
+        "name": "Has Non-Served Tickets",
+        "state": {
+          "on": "Yes",
+          "off": "No"
+        }
       }
     },
     "sensor": {
