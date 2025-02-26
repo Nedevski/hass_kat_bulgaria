@@ -1,5 +1,4 @@
 pytest
 pytest-httpx
 pytest-asyncio
-voluptuous>=0.15.2
-homeassistant>=2025.1.0
+pytest_homeassistant_custom_component

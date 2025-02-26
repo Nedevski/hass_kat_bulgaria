@@ -22,3 +22,6 @@ Donate = "https://ko-fi.com/nedevski/tip"
 [build-system]
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
