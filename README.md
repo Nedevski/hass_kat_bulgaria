@@ -32,7 +32,7 @@ For English description scroll to the bottom!
 ![Config flow](https://raw.githubusercontent.com/Nedevski/hass_kat_bulgaria/main/docs/config-flow-bg.jpg)
 ![Config flow](https://raw.githubusercontent.com/Nedevski/hass_kat_bulgaria/main/docs/sensors-bg.jpg)
 
-За всеки конфигуриран потребител се създават няколко entities, които се обновяват на всеки 30 минути:
+За всеки конфигуриран човек се създават няколко entities, които се обновяват на всеки 30 минути.
 
 - Брой глоби ([сензор, int](https://www.home-assistant.io/integrations/binary_sensor/))
 - Брой невръчени глоби ([сензор, int](https://www.home-assistant.io/integrations/binary_sensor/))
