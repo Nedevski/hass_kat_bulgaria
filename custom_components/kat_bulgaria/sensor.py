@@ -38,7 +38,6 @@ class KatBulgariaTotalTicketCountSensor(KatBulgariaEntity, SensorEntity):
         """Initialize the sensor."""
         super().__init__(coordinator)
         self._obligations = coordinator.data[COORD_DATA_KEY]
-        self._attr_name = "Count Total"
         self._attr_unique_id += "total_ticket_count"
         self._attr_translation_key = "total_ticket_count"
 
@@ -66,7 +65,6 @@ class KatBulgariaNotServedTicketCountSensor(KatBulgariaEntity, SensorEntity):
         """Initialize the sensor."""
         super().__init__(coordinator)
         self._obligations = coordinator.data[COORD_DATA_KEY]
-        self._attr_name = "Count Non-Served"
         self._attr_unique_id += "non_served_ticket_count"
         self._attr_translation_key = "non_served_ticket_count"
 
@@ -85,7 +83,6 @@ class KatBulgariaTotalTicketAmountSensor(KatBulgariaEntity, SensorEntity):
         """Initialize the sensor."""
         super().__init__(coordinator)
         self._obligations = coordinator.data[COORD_DATA_KEY]
-        self._attr_name = "Total BGN Owed"
         self._attr_unique_id += "total_ticket_amount_owed"
         self._attr_translation_key = "total_ticket_amount_owed"
 
