@@ -34,10 +34,10 @@ For English description scroll to the bottom!
 
 За всеки конфигуриран потребител се създават няколко entities, които се обновяват на всеки 30 минути:
 
-- Има ли глоби ([бинарен сензор](https://www.home-assistant.io/integrations/binary_sensor/))
-- Има ли невръчени глоби ([бинарен сензор](https://www.home-assistant.io/integrations/binary_sensor/))
-- Общ брой глоби ([сензор, int](https://www.home-assistant.io/integrations/binary_sensor/))
+- Брой глоби ([сензор, int](https://www.home-assistant.io/integrations/binary_sensor/))
 - Брой невръчени глоби ([сензор, int](https://www.home-assistant.io/integrations/binary_sensor/))
+- Налични глоби? ([бинарен сензор](https://www.home-assistant.io/integrations/binary_sensor/))
+- Невръчени глоби? ([бинарен сензор](https://www.home-assistant.io/integrations/binary_sensor/))
 - Обща дължима сума ([сензор, int](https://www.home-assistant.io/integrations/binary_sensor/)) - взима предвид активните отстъпки
 
 ## Превод на Български език
@@ -83,10 +83,10 @@ In order to set up the integration, you need to provide a name, the person's EGN
 
 For each configured instance, a couple of entities are created and updated every 30 minutes:
 
-- Has Tickets ([binary_sensor](https://www.home-assistant.io/integrations/binary_sensor/))
-- Has Non-Served Tickets ([binary_sensor](https://www.home-assistant.io/integrations/binary_sensor/))
-- Count Total ([sensor, int](https://www.home-assistant.io/integrations/binary_sensor/)) - total count of existing fines
 - Count Non-Served ([sensor, int](https://www.home-assistant.io/integrations/binary_sensor/)) - total count of non-served fines
+- Count Total ([sensor, int](https://www.home-assistant.io/integrations/binary_sensor/)) - total count of existing fines
+- Has Non-Served Tickets ([binary_sensor](https://www.home-assistant.io/integrations/binary_sensor/))
+- Has Tickets ([binary_sensor](https://www.home-assistant.io/integrations/binary_sensor/))
 - Total BGN Owed ([sensor, int](https://www.home-assistant.io/integrations/binary_sensor/)) - the total sum that needs to be paid, which takes into account the active discounts for early payment
 
 ## Standalone Python library
