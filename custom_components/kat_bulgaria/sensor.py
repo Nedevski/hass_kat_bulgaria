@@ -71,7 +71,7 @@ class KatBulgariaNotServedTicketCountSensor(KatBulgariaEntity, SensorEntity):
     @property
     def native_value(self) -> int:
         """Return the state of the entity."""
-        return sum([obligation.is_served for obligation in self._obligations])
+        return sum([obligation.is_served is False for obligation in self._obligations])
 
 
 class KatBulgariaTotalTicketAmountSensor(KatBulgariaEntity, SensorEntity):

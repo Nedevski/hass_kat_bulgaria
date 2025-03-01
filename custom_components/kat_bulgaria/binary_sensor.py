@@ -71,7 +71,7 @@ class KatBulgariaHasNonServedTicketsBinarySensor(KatBulgariaEntity, BinarySensor
     @property
     def is_on(self) -> bool:
         """Return the state of the entity."""
-        return sum([obligation.is_served for obligation in self._obligations]) != 0
+        return sum([obligation.is_served is False for obligation in self._obligations]) != 0
 
     @property
     def icon(self) -> str | None:
