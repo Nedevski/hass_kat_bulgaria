@@ -47,7 +47,7 @@ class KatBulgariaUpdateCoordinator(DataUpdateCoordinator):
             logger=_LOGGER,
             config_entry=config_entry,
             name=f"KAT - {person_name}",
-            update_interval=timedelta(minutes=60),
+            update_interval=timedelta(minutes=30),
         )
 
         assert self.config_entry.unique_id
