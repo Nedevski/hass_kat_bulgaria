@@ -6,6 +6,9 @@ from kat_bulgaria.errors import KatError, KatErrorType
 import pytest
 
 
+# region py_kat_bulgaria
+
+
 @pytest.fixture(name="validate_credentials")
 def mock_validate_credentials():
     """Mock validate credentials."""
@@ -110,3 +113,21 @@ def mock_validate_credentials_api_unknownerror():
             KatErrorType.API_UNKNOWN_ERROR, "error text"
         )
         yield
+
+
+# endregion
+
+# region hass_kat_bulgaria
+
+
+@pytest.fixture(name="katclient_get_obligations_none")
+def katclient_get_obligations_none():
+    """Mock get obligations."""
+    with patch(
+        "homeassistant.components.kat_bulgaria.kat_client.KatClient.get_obligations"
+    ) as mock_get_obligations:
+        mock_get_obligations.return_value = []
+        yield
+
+
+# endregion
