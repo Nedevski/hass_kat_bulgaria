@@ -16,6 +16,7 @@ from .const import (
     CONF_PERSON_EGN,
     CONF_PERSON_NAME,
     COORD_DATA_KEY,
+    DEFAULT_POLL_INTERVAL,
     DOMAIN,
 )
 from .kat_client import KatClient
@@ -47,7 +48,7 @@ class KatBulgariaUpdateCoordinator(DataUpdateCoordinator):
             logger=_LOGGER,
             config_entry=config_entry,
             name=f"KAT - {person_name}",
-            update_interval=timedelta(minutes=30),
+            update_interval=DEFAULT_POLL_INTERVAL,
         )
 
         assert self.config_entry.unique_id
