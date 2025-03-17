@@ -1,53 +1,56 @@
 {
-    "config": {
-        "abort": {
-            "already_configured": "Човек с това ЕГН вече е конфигуриран.",
-            "cannot_connect": "Сайта на КАТ е паднал, опитайте отново след малко.",
-            "invalid_config": "Невалидно ЕГН или номер на шофьорска книжка.",
-            "unknown": "Неочаквана грешка."
-        },
-        "error": {
-            "cannot_connect": "Неуспешно свързване",
-            "invalid_config": "Невалидно ЕГН или номер на шофьорска книжка.",
-            "unknown": "Неочаквана грешка."
-        },
-        "step": {
-            "user": {
-                "data": {
-                    "driving_license_number": "Номер на шофьорска книжка",
-                    "egn": "ЕГН",
-                    "person_name": "Име"
-                }
-            }
-        }
+  "config": {
+    "abort": {
+      "already_configured": "Човек с това ЕГН вече е конфигуриран.",
+      "cannot_connect": "Сайта на КАТ е паднал, опитайте отново след малко.",
+      "invalid_config": "Невалидно ЕГН или номер на шофьорска книжка.",
+      "unknown": "Неочаквана грешка."
     },
-    "entity": {
-        "binary_sensor": {
-            "has_non_served_tickets": {
-                "name": "Невръчени Глоби?",
-                "state": {
-                    "on": "Да",
-                    "off": "Не"
-                }
-            },
-            "has_tickets": {
-                "name": "Налични глоби?",
-                "state": {
-                    "on": "Да",
-                    "off": "Не"
-                }
-            }
-        },
-        "sensor": {
-            "total_ticket_count": {
-                "name": "Брой глоби"
-            },
-            "non_served_ticket_count": {
-                "name": "Брой невръчени глоби"
-            },
-            "total_ticket_amount_owed": {
-                "name": "Обща дължима сума"
-            }
+    "error": {
+      "cannot_connect": "Неуспешно свързване",
+      "invalid_config": "Невалидно ЕГН или номер на шофьорска книжка.",
+      "unknown": "Неочаквана грешка."
+    },
+    "step": {
+      "user": {
+        "data": {
+          "driving_license_number": "Номер на шофьорска книжка",
+          "egn": "ЕГН",
+          "person_name": "Име"
         }
+      }
     }
+  },
+  "entity": {
+    "binary_sensor": {
+      "has_non_served_tickets": {
+        "name": "Невръчени Глоби?",
+        "state": {
+          "on": "Да",
+          "off": "Не"
+        }
+      },
+      "has_tickets": {
+        "name": "Налични глоби?",
+        "state": {
+          "on": "Да",
+          "off": "Не"
+        }
+      }
+    },
+    "sensor": {
+      "total_ticket_count": {
+        "name": "Общ брой глоби"
+      },
+      "served_ticket_count": {
+        "name": "Брой връчени глоби"
+      },
+      "non_served_ticket_count": {
+        "name": "Брой невръчени глоби"
+      },
+      "total_ticket_amount_owed": {
+        "name": "Обща дължима сума"
+      }
+    }
+  }
 }

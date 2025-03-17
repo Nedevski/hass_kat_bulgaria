@@ -42,6 +42,9 @@
       "total_ticket_count": {
         "name": "Count Total"
       },
+      "served_ticket_count": {
+        "name": "Count Served"
+      },
       "non_served_ticket_count": {
         "name": "Count Non-Served"
       },
