@@ -19,7 +19,7 @@ async def async_setup_entry(
     entry: KatBulgariaConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """Set up KAT Bulgaria fgbinary sensors based on a config entry."""
+    """Set up KAT Bulgaria binary sensors based on a config entry."""
 
     coordinator = entry.runtime_data
 

@@ -76,7 +76,7 @@ class KatBulgariaServedTicketCountSensor(KatBulgariaEntity, SensorEntity):
 
 
 class KatBulgariaNotServedTicketCountSensor(KatBulgariaEntity, SensorEntity):
-    """Defines a non-served Ticket Count sensor."""
+    """Defines a Non-Served Ticket Count sensor."""
 
     _obligations: list[KatObligation]
 
