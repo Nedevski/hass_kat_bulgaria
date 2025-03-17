@@ -66,6 +66,7 @@ class ConfigFlowHandler(ConfigFlow, domain=DOMAIN):
                 KatErrorType.API_TIMEOUT,
                 KatErrorType.API_ERROR_READING_DATA,
                 KatErrorType.API_INVALID_SCHEMA,
+                KatErrorType.API_TOO_MANY_REQUESTS,
                 KatErrorType.API_UNKNOWN_ERROR,
             ):
                 _LOGGER.warning("KAT API down, unable to setup: %s", err.error_type)
