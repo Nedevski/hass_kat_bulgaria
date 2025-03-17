@@ -23,6 +23,7 @@ async def async_setup_entry(
     async_add_entities(
         [
             KatBulgariaTotalTicketCountSensor(coordinator),
+            KatBulgariaServedTicketCountSensor(coordinator),
             KatBulgariaNotServedTicketCountSensor(coordinator),
             KatBulgariaTotalTicketAmountSensor(coordinator),
         ],
@@ -56,8 +57,26 @@ class KatBulgariaTotalTicketCountSensor(KatBulgariaEntity, SensorEntity):
         }
 
 
+class KatBulgariaServedTicketCountSensor(KatBulgariaEntity, SensorEntity):
+    """Defines a Served Ticket Count sensor."""
+
+    _obligations: list[KatObligation]
+
+    def __init__(self, coordinator: KatBulgariaUpdateCoordinator) -> None:
+        """Initialize the sensor."""
+        super().__init__(coordinator)
+        self._obligations = coordinator.data[COORD_DATA_KEY]
+        self._attr_unique_id += "served_ticket_count"
+        self._attr_translation_key = "served_ticket_count"
+
+    @property
+    def native_value(self) -> int:
+        """Return the state of the entity."""
+        return sum([obligation.is_served is True for obligation in self._obligations])
+
+
 class KatBulgariaNotServedTicketCountSensor(KatBulgariaEntity, SensorEntity):
-    """Defines a Total Ticket Count sensor."""
+    """Defines a Non-Served Ticket Count sensor."""
 
     _obligations: list[KatObligation]
 
