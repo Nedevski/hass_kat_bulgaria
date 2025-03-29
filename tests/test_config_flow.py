@@ -163,7 +163,7 @@ async def test_host_already_configured(
 async def test_api_timeout(
     hass: HomeAssistant, validate_credentials_api_timeout
 ) -> None:
-    """Test host already configured."""
+    """Test API timeout."""
 
     flow_result = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -188,7 +188,7 @@ async def test_api_timeout(
 async def test_api_errorreadingdata(
     hass: HomeAssistant, validate_credentials_api_errorreadingdata
 ) -> None:
-    """Test host already configured."""
+    """Test herror reading data from API."""
 
     flow_result = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -213,7 +213,7 @@ async def test_api_errorreadingdata(
 async def test_api_invalidschema(
     hass: HomeAssistant, validate_credentials_api_invalidschema
 ) -> None:
-    """Test host already configured."""
+    """Test invalid data schema."""
 
     flow_result = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -238,7 +238,7 @@ async def test_api_invalidschema(
 async def test_api_toomanyrequests(
     hass: HomeAssistant, validate_credentials_api_toomanyrequests
 ) -> None:
-    """Test host already configured."""
+    """Test too many requests API error."""
 
     flow_result = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -263,7 +263,7 @@ async def test_api_toomanyrequests(
 async def test_api_unknownerror(
     hass: HomeAssistant, validate_credentials_api_unknownerror
 ) -> None:
-    """Test host already configured."""
+    """Test unknown error."""
 
     flow_result = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN, context={"source": config_entries.SOURCE_USER}
