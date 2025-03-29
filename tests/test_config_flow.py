@@ -7,8 +7,8 @@ from kat_bulgaria.errors import KatError, KatErrorType
 import pytest
 
 from homeassistant import config_entries
-from homeassistant.components.kat_bulgaria import const as kat_constants
-from homeassistant.components.kat_bulgaria.const import (
+from custom_components.kat_bulgaria import const as kat_constants
+from custom_components.kat_bulgaria.const import (
     CONF_DRIVING_LICENSE,
     CONF_PERSON_EGN,
     CONF_PERSON_NAME,
@@ -25,7 +25,7 @@ from . import (
     MOCK_NAME,
 )
 
-from tests.common import MockConfigEntry
+from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 
 @pytest.mark.asyncio
@@ -41,7 +41,7 @@ async def test_flow_works(
     assert flow_result["step_id"] == "user"
 
     with patch(
-        "homeassistant.components.kat_bulgaria.async_setup_entry", return_value=True
+        "custom_components.kat_bulgaria.async_setup_entry", return_value=True
     ) as mock_setup_entry:
         config_result = await hass.config_entries.flow.async_configure(
             flow_result["flow_id"],
@@ -90,7 +90,7 @@ async def test_invalid_egn(hass: HomeAssistant, validate_credentials_error_egn) 
         CONF_DRIVING_LICENSE: LICENSE_VALID,
     }
     with patch(
-        "homeassistant.components.kat_bulgaria.async_setup_entry", return_value=True
+        "custom_components.kat_bulgaria.kat_bulgaria.async_setup_entry", return_value=True
     ) as mock_setup_entry:
         config_result = await hass.config_entries.flow.async_configure(
             flow_result["flow_id"],
@@ -120,7 +120,7 @@ async def test_invalid_license(
         CONF_DRIVING_LICENSE: LICENSE_INVALID,
     }
     with patch(
-        "homeassistant.components.kat_bulgaria.async_setup_entry", return_value=True
+        "custom_components.kat_bulgaria.async_setup_entry", return_value=True
     ) as mock_setup_entry:
         config_result = await hass.config_entries.flow.async_configure(
             flow_result["flow_id"],
@@ -150,7 +150,7 @@ async def test_host_already_configured(
     )
 
     with patch(
-        "homeassistant.components.kat_bulgaria.async_setup_entry", return_value=True
+        "custom_components.kat_bulgaria.async_setup_entry", return_value=True
     ):
         config_result = await hass.config_entries.flow.async_configure(
             flow_result["flow_id"], user_input=MOCK_DATA
@@ -163,7 +163,7 @@ async def test_host_already_configured(
 async def test_api_timeout(
     hass: HomeAssistant, validate_credentials_api_timeout
 ) -> None:
-    """Test host already configured."""
+    """Test API timeout."""
 
     flow_result = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -172,7 +172,7 @@ async def test_api_timeout(
     assert flow_result["step_id"] == "user"
 
     with patch(
-        "homeassistant.components.kat_bulgaria.async_setup_entry", return_value=True
+        "custom_components.kat_bulgaria.async_setup_entry", return_value=True
     ) as mock_setup_entry:
         config_result = await hass.config_entries.flow.async_configure(
             flow_result["flow_id"],
@@ -188,7 +188,7 @@ async def test_api_timeout(
 async def test_api_errorreadingdata(
     hass: HomeAssistant, validate_credentials_api_errorreadingdata
 ) -> None:
-    """Test host already configured."""
+    """Test error reading data from API."""
 
     flow_result = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -197,7 +197,7 @@ async def test_api_errorreadingdata(
     assert flow_result["step_id"] == "user"
 
     with patch(
-        "homeassistant.components.kat_bulgaria.async_setup_entry", return_value=True
+        "custom_components.kat_bulgaria.async_setup_entry", return_value=True
     ) as mock_setup_entry:
         config_result = await hass.config_entries.flow.async_configure(
             flow_result["flow_id"],
@@ -213,7 +213,7 @@ async def test_api_errorreadingdata(
 async def test_api_invalidschema(
     hass: HomeAssistant, validate_credentials_api_invalidschema
 ) -> None:
-    """Test host already configured."""
+    """Test invalid data schema."""
 
     flow_result = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -222,7 +222,7 @@ async def test_api_invalidschema(
     assert flow_result["step_id"] == "user"
 
     with patch(
-        "homeassistant.components.kat_bulgaria.async_setup_entry", return_value=True
+        "custom_components.kat_bulgaria.async_setup_entry", return_value=True
     ) as mock_setup_entry:
         config_result = await hass.config_entries.flow.async_configure(
             flow_result["flow_id"],
@@ -238,7 +238,7 @@ async def test_api_invalidschema(
 async def test_api_toomanyrequests(
     hass: HomeAssistant, validate_credentials_api_toomanyrequests
 ) -> None:
-    """Test host already configured."""
+    """Test too many requests API error."""
 
     flow_result = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -247,7 +247,7 @@ async def test_api_toomanyrequests(
     assert flow_result["step_id"] == "user"
 
     with patch(
-        "homeassistant.components.kat_bulgaria.async_setup_entry", return_value=True
+        "custom_components.kat_bulgaria.async_setup_entry", return_value=True
     ) as mock_setup_entry:
         config_result = await hass.config_entries.flow.async_configure(
             flow_result["flow_id"],
@@ -263,7 +263,7 @@ async def test_api_toomanyrequests(
 async def test_api_unknownerror(
     hass: HomeAssistant, validate_credentials_api_unknownerror
 ) -> None:
-    """Test host already configured."""
+    """Test unknown error."""
 
     flow_result = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -272,7 +272,7 @@ async def test_api_unknownerror(
     assert flow_result["step_id"] == "user"
 
     with patch(
-        "homeassistant.components.kat_bulgaria.async_setup_entry", return_value=True
+        "custom_components.kat_bulgaria.async_setup_entry", return_value=True
     ) as mock_setup_entry:
         config_result = await hass.config_entries.flow.async_configure(
             flow_result["flow_id"],

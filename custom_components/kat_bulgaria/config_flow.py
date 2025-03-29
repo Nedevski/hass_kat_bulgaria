@@ -49,7 +49,8 @@ class ConfigFlowHandler(ConfigFlow, domain=DOMAIN):
 
         # Verify user input
         try:
-            kat_client = KatClient(self.hass, user_name, user_egn, user_license_number)
+            kat_client = KatClient(self.hass, user_name,
+                                   user_egn, user_license_number)
             await kat_client.validate_credentials()
         except KatError as err:
             if err.error_type in (
@@ -69,7 +70,8 @@ class ConfigFlowHandler(ConfigFlow, domain=DOMAIN):
                 KatErrorType.API_TOO_MANY_REQUESTS,
                 KatErrorType.API_UNKNOWN_ERROR,
             ):
-                _LOGGER.warning("KAT API down, unable to setup: %s", err.error_type)
+                _LOGGER.warning(
+                    "KAT API down, unable to setup: %s", err.error_type)
                 errors["base"] = "cannot_connect"
 
         # If this person (EGN) is already configured, abort

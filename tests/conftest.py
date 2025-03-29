@@ -124,7 +124,7 @@ def mock_validate_credentials_api_unknownerror():
 def katclient_get_obligations_success_none():
     """Mock get obligations."""
     with patch(
-        "homeassistant.components.kat_bulgaria.kat_client.KatClient.get_obligations"
+        "custom_components.kat_bulgaria.kat_client.KatClient.get_obligations"
     ) as mock_get_obligations:
         mock_get_obligations.return_value = []
         yield
@@ -134,7 +134,7 @@ def katclient_get_obligations_success_none():
 def katclient_get_obligations_usernotfoundonline():
     """Mock get obligations."""
     with patch(
-        "homeassistant.components.kat_bulgaria.kat_client.KatClient.get_obligations"
+        "custom_components.kat_bulgaria.kat_client.KatClient.get_obligations"
     ) as mock_get_obligations:
         mock_get_obligations.side_effect = KatError(
             KatErrorType.VALIDATION_USER_NOT_FOUND_ONLINE, "error text"
@@ -146,7 +146,7 @@ def katclient_get_obligations_usernotfoundonline():
 def katclient_get_obligations_api_timeout():
     """Mock get obligations."""
     with patch(
-        "homeassistant.components.kat_bulgaria.kat_client.KatClient.get_obligations"
+        "custom_components.kat_bulgaria.kat_client.KatClient.get_obligations"
     ) as mock_get_obligations:
         mock_get_obligations.side_effect = KatError(
             KatErrorType.API_TIMEOUT, "error text"
@@ -158,7 +158,7 @@ def katclient_get_obligations_api_timeout():
 def katclient_get_obligations_api_errorreadingdata():
     """Mock get obligations."""
     with patch(
-        "homeassistant.components.kat_bulgaria.kat_client.KatClient.get_obligations"
+        "custom_components.kat_bulgaria.kat_client.KatClient.get_obligations"
     ) as mock_get_obligations:
         mock_get_obligations.side_effect = KatError(
             KatErrorType.API_ERROR_READING_DATA, "error text"
@@ -170,7 +170,7 @@ def katclient_get_obligations_api_errorreadingdata():
 def katclient_get_obligations_api_invalidschema():
     """Mock get obligations."""
     with patch(
-        "homeassistant.components.kat_bulgaria.kat_client.KatClient.get_obligations"
+        "custom_components.kat_bulgaria.kat_client.KatClient.get_obligations"
     ) as mock_get_obligations:
         mock_get_obligations.side_effect = KatError(
             KatErrorType.API_INVALID_SCHEMA, "error text"
@@ -182,7 +182,7 @@ def katclient_get_obligations_api_invalidschema():
 def katclient_get_obligations_api_unknownerror():
     """Mock get obligations."""
     with patch(
-        "homeassistant.components.kat_bulgaria.kat_client.KatClient.get_obligations"
+        "custom_components.kat_bulgaria.kat_client.KatClient.get_obligations"
     ) as mock_get_obligations:
         mock_get_obligations.side_effect = KatError(
             KatErrorType.API_UNKNOWN_ERROR, "error text"
@@ -194,7 +194,7 @@ def katclient_get_obligations_api_unknownerror():
 def katclient_get_obligations_api_toomanyrequests():
     """Mock get obligations."""
     with patch(
-        "homeassistant.components.kat_bulgaria.kat_client.KatClient.get_obligations"
+        "custom_components.kat_bulgaria.kat_client.KatClient.get_obligations"
     ) as mock_get_obligations:
         mock_get_obligations.side_effect = KatError(
             KatErrorType.API_TOO_MANY_REQUESTS, "error text"

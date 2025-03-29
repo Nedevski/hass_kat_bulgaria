@@ -1,6 +1,6 @@
 """Tests for KAT Bulgaria."""
 
-from homeassistant.components.kat_bulgaria.const import (
+from custom_components.kat_bulgaria.const import (
     CONF_DRIVING_LICENSE,
     CONF_PERSON_EGN,
     CONF_PERSON_NAME,
