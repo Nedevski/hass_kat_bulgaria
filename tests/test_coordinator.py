@@ -3,18 +3,20 @@
 from unittest.mock import AsyncMock, MagicMock, patch
 
 from kat_bulgaria.errors import KatError, KatErrorType
+
 import pytest
 
-from homeassistant.components.kat_bulgaria.config_flow import DOMAIN
-from homeassistant.components.kat_bulgaria.kat_client import KatClient
 from homeassistant.config_entries import ConfigEntryState
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import Awaitable, Callable
 
-from . import EGN_VALID, LICENSE_VALID, MOCK_DATA
+from pytest_homeassistant_custom_component.common import MockConfigEntry
 
-from tests.common import MockConfigEntry
+from custom_components.kat_bulgaria.config_flow import DOMAIN
+from custom_components.kat_bulgaria.kat_client import KatClient
+
+from . import EGN_VALID, LICENSE_VALID, MOCK_DATA
 
 
 @pytest.fixture(name="platforms")
@@ -29,7 +31,7 @@ def mock_config_entry() -> MockConfigEntry:
     return MockConfigEntry(domain=DOMAIN, data=MOCK_DATA, unique_id=EGN_VALID)
 
 
-@pytest.fixture(name="client")
+@pytest.fixture(name="client_nodata")
 def mock_client(hass: HomeAssistant, request: pytest.FixtureRequest) -> MagicMock:
     """Fixture to mock KatClient."""
 
@@ -72,9 +74,9 @@ async def mock_integration_setup(
 
     async def run(client: MagicMock) -> bool:
         with (
-            patch("homeassistant.components.kat_bulgaria.PLATFORMS", platforms),
+            patch("custom_components.kat_bulgaria.PLATFORMS", platforms),
             patch(
-                "homeassistant.components.kat_bulgaria.kat_client.KatClient"
+                "custom_components.kat_bulgaria.kat_client.KatClient"
             ) as client_mock,
         ):
             client_mock.return_value = client
@@ -88,36 +90,36 @@ async def mock_integration_setup(
 async def test_coordinator_update_nodata(
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
-    client: MagicMock,
+    client_nodata: MagicMock,
     katclient_get_obligations_success_none,
 ) -> None:
     """Test that the coordinator can update."""
     assert config_entry.state == ConfigEntryState.NOT_LOADED
-    await integration_setup(client)
+    await integration_setup(client_nodata)
     assert config_entry.state == ConfigEntryState.LOADED
 
 
 async def test_coordinator_usernotfoundonline(
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
-    client: MagicMock,
+    client_nodata: MagicMock,
     katclient_get_obligations_usernotfoundonline,
 ) -> None:
     """Test that the coordinator can update."""
     assert config_entry.state == ConfigEntryState.NOT_LOADED
-    await integration_setup(client)
+    await integration_setup(client_nodata)
     assert config_entry.state == ConfigEntryState.SETUP_ERROR
 
 
 async def test_coordinator_api_timeout(
     config_entry: MockConfigEntry,
     integration_setup: Callable[[MagicMock], Awaitable[bool]],
-    client: MagicMock,
+    client_api_timeout: MagicMock,
     katclient_get_obligations_api_timeout,
 ) -> None:
     """Test that the coordinator can update."""
     assert config_entry.state == ConfigEntryState.NOT_LOADED
-    await integration_setup(client)
+    await integration_setup(client_api_timeout)
     assert config_entry.state == ConfigEntryState.SETUP_RETRY
 
 

@@ -1,0 +1,24 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/python:3.13",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "1.6.1"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.debugpy",
+        "ms-python.pylint",
+        "ms-python.vscode-pylance",
+        "esbenp.prettier-vscode",
+        "pamaron.pytest-runner",
+        "wolfieshorizon.python-auto-venv",
+        "tamasfe.even-better-toml"
+      ]
+    }
+  },
+  "forwardPorts": [3000],
+  "postCreateCommand": "bash .devcontainer/install-dependencies.sh"
+}
