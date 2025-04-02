@@ -2,8 +2,8 @@
 
 For English description scroll to the bottom!
 
-![Last release](https://img.shields.io/github/release-date/nedevski/hacs_kat_bulgaria?style=flat-square)
-![Code size](https://img.shields.io/github/languages/code-size/nedevski/hacs_kat_bulgaria?style=flat-square)
+![Last release](https://img.shields.io/github/release-date/nedevski/hass_kat_bulgaria?style=flat-square)
+![Code size](https://img.shields.io/github/languages/code-size/nedevski/hass_kat_bulgaria?style=flat-square)
 
 ---
 
