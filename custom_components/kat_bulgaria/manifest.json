@@ -7,5 +7,5 @@
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/Nedevski/hacs_kat_bulgaria/issues",
   "requirements": ["kat_bulgaria==2.0.0b8"],
-  "version": "1.1.0b0"
+  "version": "2.0.0b0"
 }
