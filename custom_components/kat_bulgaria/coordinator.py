@@ -1,6 +1,5 @@
 """DateUpdateCoordinator for Kat Bulgaria integration."""
 
-from datetime import timedelta
 import logging
 from typing import Any
 
@@ -12,11 +11,15 @@ from homeassistant.exceptions import ConfigEntryAuthFailed
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import (
-    CONF_DRIVING_LICENSE,
+    CONF_BULSTAT,
+    CONF_DOCUMENT_NUMBER,
     CONF_PERSON_EGN,
     CONF_PERSON_NAME,
+    CONF_PERSON_TYPE,
     COORD_DATA_KEY,
+    DEFAULT_POLL_INTERVAL,
     DOMAIN,
+    PersonType,
 )
 from .kat_client import KatClient
 
@@ -38,21 +41,32 @@ class KatBulgariaUpdateCoordinator(DataUpdateCoordinator):
     ) -> None:
         """Initialize coordinator."""
 
+        person_type: str = config_entry.data[CONF_PERSON_TYPE]
         person_name: str = config_entry.data[CONF_PERSON_NAME]
         person_egn: str = config_entry.data[CONF_PERSON_EGN]
-        license_number: str = config_entry.data[CONF_DRIVING_LICENSE]
+        document_number: str = config_entry.data[CONF_DOCUMENT_NUMBER]
 
         super().__init__(
             hass,
             logger=_LOGGER,
             config_entry=config_entry,
             name=f"KAT - {person_name}",
-            update_interval=timedelta(minutes=30),
+            update_interval=DEFAULT_POLL_INTERVAL,
         )
 
         assert self.config_entry.unique_id
         self.serial_number = self.config_entry.unique_id
-        self.client = KatClient(hass, person_name, person_egn, license_number)
+        if person_type == PersonType.INDIVIDUAL:
+            self.client = KatClient(
+                hass, person_type, person_name, person_egn, document_number, None
+            )
+        elif person_type == PersonType.BUSINESS:
+            bulstat: str = config_entry.data[CONF_BULSTAT]
+            self.client = KatClient(
+                hass, person_type, person_name, person_egn, document_number, bulstat
+            )
+        else:
+            raise ValueError(f"Invalid person type: {person_type}")
 
     async def _async_update_data(self) -> dict[str, Any]:
         try:
@@ -61,7 +75,7 @@ class KatBulgariaUpdateCoordinator(DataUpdateCoordinator):
         except KatError as error:
             if error.error_type in (
                 KatErrorType.VALIDATION_EGN_INVALID,
-                KatErrorType.VALIDATION_LICENSE_INVALID,
+                KatErrorType.VALIDATION_ID_DOCUMENT_INVALID,
                 KatErrorType.VALIDATION_USER_NOT_FOUND_ONLINE,
             ):
                 _LOGGER.warning(

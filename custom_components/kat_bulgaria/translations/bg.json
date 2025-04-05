@@ -3,20 +3,38 @@
     "abort": {
       "already_configured": "Човек с това ЕГН вече е конфигуриран.",
       "cannot_connect": "Сайта на КАТ е паднал, опитайте отново след малко.",
-      "invalid_config": "Невалидно ЕГН или номер на шофьорска книжка.",
+      "invalid_config": "Невалидно ЕГН или номер на личен документ.",
       "unknown": "Неочаквана грешка."
     },
     "error": {
       "cannot_connect": "Неуспешно свързване",
-      "invalid_config": "Невалидно ЕГН или номер на шофьорска книжка.",
+      "invalid_config": "Невалидно ЕГН или номер на личен документ.",
       "unknown": "Неочаквана грешка."
     },
     "step": {
       "user": {
+        "title": "Конфигурация",
         "data": {
-          "driving_license_number": "Номер на шофьорска книжка",
+          "person_type": "Физическо или юридическо лице?",
+          "individual": "Физическо лице",
+          "business": "Юридическо лице"
+        }
+      },
+      "individual": {
+        "title": "Конфигурация - Физическо лице",
+        "data": {
+          "person_name": "Име",
           "egn": "ЕГН",
-          "person_name": "Име"
+          "document_number": "Номер на шофьорска книжка"
+        }
+      },
+      "business": {
+        "title": "Конфигурация - Юридическо лице",
+        "data": {
+          "person_name": "Име",
+          "egn": "ЕГН",
+          "document_number": "Номер на лична карта",
+          "business_bulstat": "БУЛСТАТ"
         }
       }
     }
@@ -50,6 +68,14 @@
       },
       "total_ticket_amount_owed": {
         "name": "Обща дължима сума"
+      }
+    }
+  },
+  "selector": {
+    "person_type": {
+      "options": {
+        "business": "Юридическо лице",
+        "individual": "Физическо лице"
       }
     }
   }

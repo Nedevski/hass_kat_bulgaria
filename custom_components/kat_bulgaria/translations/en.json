@@ -12,12 +12,28 @@
       "unknown": "Unknown error, check the logs for more details."
     },
     "step": {
-      "user": {
+      "business": {
         "data": {
-          "driving_license_number": "Driving license number",
+          "business_bulstat": "BULSTAT",
+          "document_number": "Government ID number",
           "egn": "Unified Civil Number (EGN)",
           "person_name": "Person name"
-        }
+        },
+        "title": "Configuration - Business"
+      },
+      "individual": {
+        "data": {
+          "document_number": "Driving License number",
+          "egn": "Unified Civil Number (EGN)",
+          "person_name": "Person name"
+        },
+        "title": "Configuration - Individual"
+      },
+      "user": {
+        "data": {
+          "person_type": "Are you an individual or a business?"
+        },
+        "title": "Configuration"
       }
     }
   },
@@ -50,6 +66,14 @@
       },
       "total_ticket_count": {
         "name": "Count Total"
+      }
+    }
+  },
+  "selector": {
+    "person_type": {
+      "options": {
+        "business": "Business",
+        "individual": "Individual"
       }
     }
   }

@@ -7,7 +7,7 @@ from homeassistant.components.binary_sensor import (
     BinarySensorEntity,
 )
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import COORD_DATA_KEY
 from .coordinator import KatBulgariaConfigEntry, KatBulgariaUpdateCoordinator
@@ -17,9 +17,9 @@ from .entity import KatBulgariaEntity
 async def async_setup_entry(
     hass: HomeAssistant,
     entry: KatBulgariaConfigEntry,
-    async_add_entities: AddEntitiesCallback,
+    async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
-    """Set up KAT Bulgaria binary sensors based on a config entry."""
+    """Set up KAT Bulgaria fgbinary sensors based on a config entry."""
 
     coordinator = entry.runtime_data
 
@@ -71,7 +71,10 @@ class KatBulgariaHasNonServedTicketsBinarySensor(KatBulgariaEntity, BinarySensor
     @property
     def is_on(self) -> bool:
         """Return the state of the entity."""
-        return sum([obligation.is_served is False for obligation in self._obligations]) != 0
+        return (
+            sum([obligation.is_served is False for obligation in self._obligations])
+            != 0
+        )
 
     @property
     def icon(self) -> str | None:
