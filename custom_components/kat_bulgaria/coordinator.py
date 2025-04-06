@@ -7,7 +7,6 @@ from kat_bulgaria.errors import KatError, KatErrorType
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
-from homeassistant.exceptions import ConfigEntryAuthFailed
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import (
@@ -58,12 +57,12 @@ class KatBulgariaUpdateCoordinator(DataUpdateCoordinator):
         self.serial_number = self.config_entry.unique_id
         if person_type == PersonType.INDIVIDUAL:
             self.client = KatClient(
-                hass, person_type, person_name, person_egn, document_number, None
+                hass, person_type, person_egn, document_number, None
             )
         elif person_type == PersonType.BUSINESS:
             bulstat: str = config_entry.data[CONF_BULSTAT]
             self.client = KatClient(
-                hass, person_type, person_name, person_egn, document_number, bulstat
+                hass, person_type, person_egn, document_number, bulstat
             )
         else:
             raise ValueError(f"Invalid person type: {person_type}")
@@ -82,7 +81,7 @@ class KatBulgariaUpdateCoordinator(DataUpdateCoordinator):
                     "Invalid KAT API credentials, unable to update: %s",
                     error.error_type,
                 )
-                raise ConfigEntryAuthFailed(
+                raise UpdateFailed(
                     translation_domain=DOMAIN,
                     translation_key="invalid_config",
                 ) from error

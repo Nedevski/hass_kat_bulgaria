@@ -15,16 +15,14 @@ class KatClient:
     hass: HomeAssistant
 
     person_type: str
-    person_name: str
     person_egn: str
     person_document_number: str
-    bulstat: str
+    bulstat: str | None
 
     def __init__(
         self,
         hass: HomeAssistant,
         person_type: str,
-        name: str,
         egn: str,
         document_number: str,
         bulstat: str | None,
@@ -36,9 +34,9 @@ class KatClient:
         self.api = KatApiClient()
 
         self.person_type = person_type
-        self.person_name = name
         self.person_egn = egn
         self.person_document_number = document_number
+        self.bulstat = None
 
         if self.person_type == PersonType.BUSINESS:
             if bulstat is None:
