@@ -41,10 +41,3 @@ MOCK_DATA_V1 = {
     CONF_PERSON_EGN: EGN_VALID,
     CONF_DRIVING_LICENSE: LICENSE_VALID,
 }
-
-PATCH_VALIDATE_CREDS_INDIVIDUAL = (
-    "kat_bulgaria.kat_api_client.KatApiClient.validate_credentials_individual"
-)
-PATCH_VALIDATE_CREDS_BUSINESS = (
-    "kat_bulgaria.kat_api_client.KatApiClient.validate_credentials_business"
-)
