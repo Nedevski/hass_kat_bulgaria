@@ -72,11 +72,7 @@ class KatBulgariaUpdateCoordinator(DataUpdateCoordinator):
             obligations = await self.client.get_obligations()
 
         except KatError as error:
-            if error.error_type in (
-                KatErrorType.VALIDATION_EGN_INVALID,
-                KatErrorType.VALIDATION_ID_DOCUMENT_INVALID,
-                KatErrorType.VALIDATION_USER_NOT_FOUND_ONLINE,
-            ):
+            if error.error_type == KatErrorType.VALIDATION_ERROR:
                 _LOGGER.warning(
                     "Invalid KAT API credentials, unable to update: %s",
                     error.error_type,

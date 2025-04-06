@@ -248,24 +248,20 @@ class ConfigFlowHandler(ConfigFlow, domain=DOMAIN):
         try:
             await kat_client.validate_credentials()
         except KatError as err:
-            if err.error_type in (
-                KatErrorType.VALIDATION_EGN_INVALID,
-                KatErrorType.VALIDATION_ID_DOCUMENT_INVALID,
-                KatErrorType.VALIDATION_USER_NOT_FOUND_ONLINE,
-            ):
+            if err.error_type == KatErrorType.VALIDATION_ERROR:
                 _LOGGER.warning(
-                    "Invalid credentials, unable to setup: %s", err.error_type
+                    "Invalid credentials, unable to setup: %s - %s",
+                    err.error_type,
+                    err.error_subtype,
                 )
                 errors["base"] = "invalid_config"
 
-            if err.error_type in (
-                KatErrorType.API_TIMEOUT,
-                KatErrorType.API_ERROR_READING_DATA,
-                KatErrorType.API_INVALID_SCHEMA,
-                KatErrorType.API_TOO_MANY_REQUESTS,
-                KatErrorType.API_UNKNOWN_ERROR,
-            ):
-                _LOGGER.warning("KAT API down, unable to setup: %s", err.error_type)
+            if err.error_type == KatErrorType.API_ERROR:
+                _LOGGER.warning(
+                    "KAT API down, unable to setup: %s - %s",
+                    err.error_type,
+                    err.error_subtype,
+                )
                 errors["base"] = "cannot_connect"
 
         return errors

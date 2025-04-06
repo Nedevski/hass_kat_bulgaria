@@ -2,7 +2,7 @@
 
 from unittest.mock import AsyncMock, patch
 
-from kat_bulgaria.errors import KatError, KatErrorType
+from kat_bulgaria.errors import KatError, KatErrorSubtype, KatErrorType
 import pytest
 
 from homeassistant.components.kat_bulgaria import const as kat_constants
@@ -140,7 +140,13 @@ async def test_flow_business(hass: HomeAssistant) -> None:
 @pytest.mark.asyncio
 @patch(
     PATCH_VALIDATE_CREDS_INDIVIDUAL,
-    AsyncMock(side_effect=KatError(KatErrorType.VALIDATION_EGN_INVALID, "error text")),
+    AsyncMock(
+        side_effect=KatError(
+            KatErrorType.VALIDATION_ERROR,
+            KatErrorSubtype.VALIDATION_EGN_INVALID,
+            "error text",
+        )
+    ),
 )
 async def test_flow_error_egn_invalid_individual(hass: HomeAssistant) -> None:
     """Test config flow."""
@@ -164,7 +170,13 @@ async def test_flow_error_egn_invalid_individual(hass: HomeAssistant) -> None:
 @pytest.mark.asyncio
 @patch(
     PATCH_VALIDATE_CREDS_BUSINESS,
-    AsyncMock(side_effect=KatError(KatErrorType.VALIDATION_EGN_INVALID, "error text")),
+    AsyncMock(
+        side_effect=KatError(
+            KatErrorType.VALIDATION_ERROR,
+            KatErrorSubtype.VALIDATION_EGN_INVALID,
+            "error text",
+        )
+    ),
 )
 async def test_flow_error_egn_invalid_business(hass: HomeAssistant) -> None:
     """Test config flow."""
@@ -190,7 +202,9 @@ async def test_flow_error_egn_invalid_business(hass: HomeAssistant) -> None:
     PATCH_VALIDATE_CREDS_INDIVIDUAL,
     AsyncMock(
         side_effect=KatError(
-            KatErrorType.VALIDATION_USER_NOT_FOUND_ONLINE, "error text"
+            KatErrorType.VALIDATION_ERROR,
+            KatErrorSubtype.VALIDATION_USER_NOT_FOUND_ONLINE,
+            "error text",
         )
     ),
 )
@@ -218,7 +232,9 @@ async def test_flow_error_notfoundonline_individual(hass: HomeAssistant) -> None
     PATCH_VALIDATE_CREDS_BUSINESS,
     AsyncMock(
         side_effect=KatError(
-            KatErrorType.VALIDATION_USER_NOT_FOUND_ONLINE, "error text"
+            KatErrorType.VALIDATION_ERROR,
+            KatErrorSubtype.VALIDATION_USER_NOT_FOUND_ONLINE,
+            "error text",
         )
     ),
 )
@@ -245,7 +261,11 @@ async def test_flow_error_notfoundonline_business(hass: HomeAssistant) -> None:
 @patch(
     PATCH_VALIDATE_CREDS_INDIVIDUAL,
     AsyncMock(
-        side_effect=KatError(KatErrorType.VALIDATION_ID_DOCUMENT_INVALID, "error text")
+        side_effect=KatError(
+            KatErrorType.VALIDATION_ERROR,
+            KatErrorSubtype.VALIDATION_DRIVING_LICENSE_INVALID,
+            "error text",
+        )
     ),
 )
 async def test_flow_error_invalid_document_individual(hass: HomeAssistant) -> None:
@@ -271,7 +291,11 @@ async def test_flow_error_invalid_document_individual(hass: HomeAssistant) -> No
 @patch(
     PATCH_VALIDATE_CREDS_BUSINESS,
     AsyncMock(
-        side_effect=KatError(KatErrorType.VALIDATION_ID_DOCUMENT_INVALID, "error text")
+        side_effect=KatError(
+            KatErrorType.VALIDATION_ERROR,
+            KatErrorSubtype.VALIDATION_GOV_ID_NUMBER_INVALID,
+            "error text",
+        )
     ),
 )
 async def test_flow_error_invalid_document_business(hass: HomeAssistant) -> None:
@@ -296,7 +320,11 @@ async def test_flow_error_invalid_document_business(hass: HomeAssistant) -> None
 @pytest.mark.asyncio
 @patch(
     PATCH_VALIDATE_CREDS_INDIVIDUAL,
-    AsyncMock(side_effect=KatError(KatErrorType.API_TIMEOUT, "error text")),
+    AsyncMock(
+        side_effect=KatError(
+            KatErrorType.API_ERROR, KatErrorSubtype.API_TIMEOUT, "error text"
+        )
+    ),
 )
 async def test_flow_error_api_timeout_individual(hass: HomeAssistant) -> None:
     """Test config flow."""
@@ -320,7 +348,11 @@ async def test_flow_error_api_timeout_individual(hass: HomeAssistant) -> None:
 @pytest.mark.asyncio
 @patch(
     PATCH_VALIDATE_CREDS_BUSINESS,
-    AsyncMock(side_effect=KatError(KatErrorType.API_TIMEOUT, "error text")),
+    AsyncMock(
+        side_effect=KatError(
+            KatErrorType.API_ERROR, KatErrorSubtype.API_TIMEOUT, "error text"
+        )
+    ),
 )
 async def test_flow_error_api_timeout_business(hass: HomeAssistant) -> None:
     """Test config flow."""
@@ -344,7 +376,11 @@ async def test_flow_error_api_timeout_business(hass: HomeAssistant) -> None:
 @pytest.mark.asyncio
 @patch(
     PATCH_VALIDATE_CREDS_INDIVIDUAL,
-    AsyncMock(side_effect=KatError(KatErrorType.API_ERROR_READING_DATA, "error text")),
+    AsyncMock(
+        side_effect=KatError(
+            KatErrorType.API_ERROR, KatErrorSubtype.API_ERROR_READING_DATA, "error text"
+        )
+    ),
 )
 async def test_flow_error_api_error_reading_data_individual(
     hass: HomeAssistant,
@@ -370,7 +406,11 @@ async def test_flow_error_api_error_reading_data_individual(
 @pytest.mark.asyncio
 @patch(
     PATCH_VALIDATE_CREDS_BUSINESS,
-    AsyncMock(side_effect=KatError(KatErrorType.API_ERROR_READING_DATA, "error text")),
+    AsyncMock(
+        side_effect=KatError(
+            KatErrorType.API_ERROR, KatErrorSubtype.API_ERROR_READING_DATA, "error text"
+        )
+    ),
 )
 async def test_flow_error_api_error_reading_data_business(hass: HomeAssistant) -> None:
     """Test config flow."""
@@ -394,7 +434,11 @@ async def test_flow_error_api_error_reading_data_business(hass: HomeAssistant) -
 @pytest.mark.asyncio
 @patch(
     PATCH_VALIDATE_CREDS_INDIVIDUAL,
-    AsyncMock(side_effect=KatError(KatErrorType.API_INVALID_SCHEMA, "error text")),
+    AsyncMock(
+        side_effect=KatError(
+            KatErrorType.API_ERROR, KatErrorSubtype.API_INVALID_SCHEMA, "error text"
+        )
+    ),
 )
 async def test_flow_error_api_invalid_schema_individual(
     hass: HomeAssistant,
@@ -420,7 +464,11 @@ async def test_flow_error_api_invalid_schema_individual(
 @pytest.mark.asyncio
 @patch(
     PATCH_VALIDATE_CREDS_BUSINESS,
-    AsyncMock(side_effect=KatError(KatErrorType.API_INVALID_SCHEMA, "error text")),
+    AsyncMock(
+        side_effect=KatError(
+            KatErrorType.API_ERROR, KatErrorSubtype.API_INVALID_SCHEMA, "error text"
+        )
+    ),
 )
 async def test_flow_error_api_invalid_schema_business(hass: HomeAssistant) -> None:
     """Test config flow."""
@@ -444,7 +492,11 @@ async def test_flow_error_api_invalid_schema_business(hass: HomeAssistant) -> No
 @pytest.mark.asyncio
 @patch(
     PATCH_VALIDATE_CREDS_INDIVIDUAL,
-    AsyncMock(side_effect=KatError(KatErrorType.API_TOO_MANY_REQUESTS, "error text")),
+    AsyncMock(
+        side_effect=KatError(
+            KatErrorType.API_ERROR, KatErrorSubtype.API_TOO_MANY_REQUESTS, "error text"
+        )
+    ),
 )
 async def test_flow_error_api_too_many_requests_individual(
     hass: HomeAssistant,
@@ -470,7 +522,11 @@ async def test_flow_error_api_too_many_requests_individual(
 @pytest.mark.asyncio
 @patch(
     PATCH_VALIDATE_CREDS_BUSINESS,
-    AsyncMock(side_effect=KatError(KatErrorType.API_TOO_MANY_REQUESTS, "error text")),
+    AsyncMock(
+        side_effect=KatError(
+            KatErrorType.API_ERROR, KatErrorSubtype.API_TOO_MANY_REQUESTS, "error text"
+        )
+    ),
 )
 async def test_flow_error_api_too_many_requests_business(hass: HomeAssistant) -> None:
     """Test config flow."""
@@ -494,7 +550,11 @@ async def test_flow_error_api_too_many_requests_business(hass: HomeAssistant) ->
 @pytest.mark.asyncio
 @patch(
     PATCH_VALIDATE_CREDS_INDIVIDUAL,
-    AsyncMock(side_effect=KatError(KatErrorType.API_UNKNOWN_ERROR, "error text")),
+    AsyncMock(
+        side_effect=KatError(
+            KatErrorType.API_ERROR, KatErrorSubtype.API_UNKNOWN_ERROR, "error text"
+        )
+    ),
 )
 async def test_flow_error_api_unknown_error_individual(
     hass: HomeAssistant,
@@ -520,7 +580,11 @@ async def test_flow_error_api_unknown_error_individual(
 @pytest.mark.asyncio
 @patch(
     PATCH_VALIDATE_CREDS_BUSINESS,
-    AsyncMock(side_effect=KatError(KatErrorType.API_UNKNOWN_ERROR, "error text")),
+    AsyncMock(
+        side_effect=KatError(
+            KatErrorType.API_ERROR, KatErrorSubtype.API_UNKNOWN_ERROR, "error text"
+        )
+    ),
 )
 async def test_flow_error_api_unknown_error_business(hass: HomeAssistant) -> None:
     """Test config flow."""
