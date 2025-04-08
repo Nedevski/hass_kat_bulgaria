@@ -32,7 +32,7 @@ For English description scroll to the bottom!
 ![Config flow](https://raw.githubusercontent.com/Nedevski/hass_kat_bulgaria/main/docs/config-flow-bg.jpg)
 ![Config flow](https://raw.githubusercontent.com/Nedevski/hass_kat_bulgaria/main/docs/sensors-bg.jpg)
 
-За всеки конфигуриран човек се създават няколко entities, които се обновяват на всеки 30 минути.
+За всеки конфигуриран човек се създават няколко entities, които се обновяват на всеки 1 час.
 
 - Брой глоби ([сензор, int](https://www.home-assistant.io/integrations/binary_sensor/))
 - Брой невръчени глоби ([сензор, int](https://www.home-assistant.io/integrations/binary_sensor/))
@@ -81,7 +81,7 @@ In order to set up the integration, you need to provide a name, the person's EGN
 ![Config flow](https://raw.githubusercontent.com/Nedevski/hass_kat_bulgaria/main/docs/config-flow-en.jpg)
 ![Config flow](https://raw.githubusercontent.com/Nedevski/hass_kat_bulgaria/main/docs/sensors-en.jpg)
 
-For each configured instance, a couple of entities are created and updated every 30 minutes:
+For each configured instance, a couple of entities are created and updated every 1 hour:
 
 - Count Non-Served ([sensor, int](https://www.home-assistant.io/integrations/binary_sensor/)) - total count of non-served fines
 - Count Total ([sensor, int](https://www.home-assistant.io/integrations/binary_sensor/)) - total count of existing fines

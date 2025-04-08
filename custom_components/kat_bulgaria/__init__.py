@@ -71,7 +71,9 @@ async def async_migrate_entry(hass: HomeAssistant, config_entry: ConfigEntry) ->
         new_data[CONF_DOCUMENT_NUMBER] = old_data[CONF_DRIVING_LICENSE]
         new_data[CONF_DOCUMENT_TYPE] = PersonalDocumentType.DRIVING_LICENSE
 
-        hass.config_entries.async_update_entry(config_entry, data=new_data, version=2)
+        hass.config_entries.async_update_entry(
+            config_entry, unique_id=config_entry.unique_id, data=new_data, version=2
+        )
 
     _LOGGER.debug(
         "Migration to configuration version %s.%s successful",
