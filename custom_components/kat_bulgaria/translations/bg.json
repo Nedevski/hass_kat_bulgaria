@@ -4,6 +4,7 @@
       "already_configured": "Човек с това ЕГН вече е конфигуриран.",
       "cannot_connect": "Сайта на КАТ е паднал, опитайте отново след малко.",
       "invalid_config": "Невалидно ЕГН или номер на личен документ.",
+      "reconfigure_successful": "Успешна реконфигурация.",
       "unknown": "Неочаквана грешка."
     },
     "error": {
@@ -14,10 +15,9 @@
     "step": {
       "user": {
         "title": "Конфигурация",
-        "data": {
-          "person_type": "Физическо или юридическо лице?",
-          "individual": "Физическо лице",
-          "business": "Юридическо лице"
+        "menu_options": {
+          "business": "Юридическо лице",
+          "individual": "Физическо лице"
         }
       },
       "individual": {
@@ -25,8 +25,16 @@
         "data": {
           "person_name": "Име",
           "egn": "ЕГН",
-          "document_number": "Номер на шофьорска книжка"
+          "document_number": "Номер на документ",
+          "document_type": "Вид документ"
         }
+      },
+      "reconfigure": {
+        "data": {
+          "document_number": "Номер на документ",
+          "document_type": "Вид документ"
+        },
+        "title": "Обновяване на документ"
       },
       "business": {
         "title": "Конфигурация - Юридическо лице",
@@ -72,10 +80,10 @@
     }
   },
   "selector": {
-    "person_type": {
+    "document_type": {
       "options": {
-        "business": "Юридическо лице",
-        "individual": "Физическо лице"
+        "national_id": "Лична карта",
+        "driving_license": "Шофьорска книжка"
       }
     }
   }

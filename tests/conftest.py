@@ -9,10 +9,8 @@ from homeassistant.components.kat_bulgaria.config_flow import DOMAIN
 
 from . import (
     EGN_VALID,
-    MOCK_DATA_BUSINESS,
-    MOCK_DATA_INDIVIDUAL,
-    MOCK_DATA_PERSON_TYPE_BUSINESS,
-    MOCK_DATA_PERSON_TYPE_INDIVIDUAL,
+    MOCK_DATA_BUSINESS_FULL,
+    MOCK_DATA_INDIVIDUAL_FULL,
     MOCK_DATA_V1,
 )
 
@@ -34,7 +32,7 @@ def mock_config_entry_v2_individual() -> MockConfigEntry:
     """Fixture for a config entry."""
     return MockConfigEntry(
         domain=DOMAIN,
-        data={**MOCK_DATA_PERSON_TYPE_INDIVIDUAL, **MOCK_DATA_INDIVIDUAL},
+        data=MOCK_DATA_INDIVIDUAL_FULL,
         unique_id=EGN_VALID,
         version=2,
     )
@@ -45,7 +43,7 @@ def mock_config_entry_v2__business() -> MockConfigEntry:
     """Fixture for a config entry."""
     return MockConfigEntry(
         domain=DOMAIN,
-        data={**MOCK_DATA_PERSON_TYPE_BUSINESS, **MOCK_DATA_BUSINESS},
+        data=MOCK_DATA_BUSINESS_FULL,
         unique_id=EGN_VALID,
         version=2,
     )

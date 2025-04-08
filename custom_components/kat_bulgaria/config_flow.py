@@ -5,16 +5,18 @@ from __future__ import annotations
 import logging
 from typing import Any
 
+from kat_bulgaria.data_models import PersonalDocumentType
 from kat_bulgaria.errors import KatError, KatErrorType
 import voluptuous as vol
 
 from homeassistant import config_entries
-from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
+from homeassistant.config_entries import ConfigEntry, ConfigFlow, ConfigFlowResult
 from homeassistant.helpers.selector import SelectSelector, SelectSelectorConfig
 
 from .const import (
     CONF_BULSTAT,
     CONF_DOCUMENT_NUMBER,
+    CONF_DOCUMENT_TYPE,
     CONF_PERSON_EGN,
     CONF_PERSON_NAME,
     CONF_PERSON_TYPE,
@@ -25,21 +27,21 @@ from .kat_client import KatClient
 
 _LOGGER = logging.getLogger(__name__)
 
-SCHEMA_START = vol.Schema(
-    {
-        vol.Required(CONF_PERSON_TYPE, default=PersonType.INDIVIDUAL): SelectSelector(
-            SelectSelectorConfig(
-                options=[PersonType.INDIVIDUAL, PersonType.BUSINESS],
-                translation_key=CONF_PERSON_TYPE,
-            )
-        )
-    }
-)
-
 SCHEMA_INDIVIDUAL = vol.Schema(
     {
         vol.Required(CONF_PERSON_NAME): str,
         vol.Required(CONF_PERSON_EGN): str,
+        vol.Required(
+            CONF_DOCUMENT_TYPE, default=PersonalDocumentType.NATIONAL_ID
+        ): SelectSelector(
+            SelectSelectorConfig(
+                options=[
+                    PersonalDocumentType.NATIONAL_ID,
+                    PersonalDocumentType.DRIVING_LICENSE,
+                ],
+                translation_key=CONF_DOCUMENT_TYPE,
+            )
+        ),
         vol.Required(CONF_DOCUMENT_NUMBER): str,
     }
 )
@@ -67,27 +69,11 @@ class ConfigFlowHandler(ConfigFlow, domain=DOMAIN):
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
-        """Handle the initial step."""
+        """User config step to choose if setting up for an individual or a business."""
 
-        # If no input, show default form
-        if user_input is None:
-            return self.async_show_form(step_id=STEP_ID_USER, data_schema=SCHEMA_START)
-
-        person_type = user_input[CONF_PERSON_TYPE]
-
-        if person_type == PersonType.INDIVIDUAL:
-            return await self.async_step_individual(user_input)
-        if person_type == PersonType.BUSINESS:
-            return await self.async_step_business(user_input)
-
-        # If we reach here, something went wrong.
-        _LOGGER.error("Invalid person type: %s", person_type)
-
-        # Show the form again with an error
-        return self.async_show_form(
-            step_id=STEP_ID_USER,
-            data_schema=SCHEMA_START,
-            errors={"base": "invalid_type"},
+        return self.async_show_menu(
+            step_id="user",
+            menu_options=[STEP_ID_INDIVIDUAL, STEP_ID_BUSINESS],
         )
 
     async def async_step_individual(
@@ -95,23 +81,25 @@ class ConfigFlowHandler(ConfigFlow, domain=DOMAIN):
     ) -> ConfigFlowResult:
         """Handle the initial step."""
 
-        if len(user_input) == 1:
+        if user_input is None:
             return self.async_show_form(
                 step_id=STEP_ID_INDIVIDUAL, data_schema=SCHEMA_INDIVIDUAL
             )
 
         # Init user input values & init KatClient
-        # user_input[CONF_PERSON_TYPE] = PersonType.INDIVIDUAL
-
         user_name = user_input[CONF_PERSON_NAME]
         user_egn = user_input[CONF_PERSON_EGN]
+        user_document_type = user_input[CONF_DOCUMENT_TYPE]
         user_license_number = user_input[CONF_DOCUMENT_NUMBER]
+
+        user_input[CONF_PERSON_TYPE] = PersonType.INDIVIDUAL
 
         kat_client = KatClient(
             self.hass,
             PersonType.INDIVIDUAL,
             user_egn,
             user_license_number,
+            user_document_type,
             None,
         )
 
@@ -133,24 +121,25 @@ class ConfigFlowHandler(ConfigFlow, domain=DOMAIN):
     async def async_step_business(self, user_input: dict[str, Any]) -> ConfigFlowResult:
         """Handle the initial step."""
 
-        if len(user_input) == 1:
+        if user_input is None:
             return self.async_show_form(
                 step_id=STEP_ID_BUSINESS, data_schema=SCHEMA_BUSINESS
             )
 
         # Init user input values & init KatClient
-        # user_input[CONF_PERSON_TYPE] = PersonType.BUSINESS
-
         user_name = user_input[CONF_PERSON_NAME]
         user_egn = user_input[CONF_PERSON_EGN]
         user_gov_id_number = user_input[CONF_DOCUMENT_NUMBER]
         user_bulstat = user_input[CONF_BULSTAT]
+
+        user_input[CONF_PERSON_TYPE] = PersonType.BUSINESS
 
         kat_client = KatClient(
             self.hass,
             PersonType.BUSINESS,
             user_egn,
             user_gov_id_number,
+            None,
             user_bulstat,
         )
 
@@ -174,12 +163,51 @@ class ConfigFlowHandler(ConfigFlow, domain=DOMAIN):
 
         reconfigure_entry = self._get_reconfigure_entry()
 
+        person_type = reconfigure_entry.data[CONF_PERSON_TYPE]
+
+        if person_type == PersonType.INDIVIDUAL:
+            return await self._async_step_reconfigure_individual(
+                reconfigure_entry, user_input
+            )
+
+        if person_type == PersonType.BUSINESS:
+            return await self._async_step_reconfigure_business(
+                reconfigure_entry, user_input
+            )
+
+        return self.async_show_form(
+            step_id=STEP_ID_RECONFIGURE,
+            data_schema=None,
+            errors={"base": "invalid_type"},
+        )
+
+    async def _async_step_reconfigure_individual(
+        self,
+        reconfigure_entry: ConfigEntry[Any],
+        user_input: dict[str, Any] | None = None,
+    ) -> ConfigFlowResult:
+        """Reconfigure the individual step."""
+
         reconfigure_data_schema = vol.Schema(
             {
                 vol.Required(
+                    CONF_DOCUMENT_TYPE,
+                    default=reconfigure_entry.data.get(
+                        CONF_DOCUMENT_TYPE, PersonalDocumentType.NATIONAL_ID
+                    ),
+                ): SelectSelector(
+                    SelectSelectorConfig(
+                        options=[
+                            PersonalDocumentType.NATIONAL_ID,
+                            PersonalDocumentType.DRIVING_LICENSE,
+                        ],
+                        translation_key=CONF_DOCUMENT_TYPE,
+                    )
+                ),
+                vol.Required(
                     CONF_DOCUMENT_NUMBER,
                     default=reconfigure_entry.data.get(CONF_DOCUMENT_NUMBER, ""),
-                ): str
+                ): str,
             }
         )
 
@@ -189,51 +217,76 @@ class ConfigFlowHandler(ConfigFlow, domain=DOMAIN):
                 data_schema=reconfigure_data_schema,
             )
 
-        person_type = reconfigure_entry.data[CONF_PERSON_TYPE]
+        existing_person_egn = reconfigure_entry.data[CONF_PERSON_EGN]
+        new_document_type = user_input[CONF_DOCUMENT_TYPE]
         new_document_number = user_input[CONF_DOCUMENT_NUMBER]
 
-        match person_type:
-            case PersonType.INDIVIDUAL:
-                errors = await self._validate_user_credentials(
-                    KatClient(
-                        self.hass,
-                        PersonType.INDIVIDUAL,
-                        reconfigure_entry.data[CONF_PERSON_EGN],
-                        new_document_number,
-                        None,
-                    )
-                )
+        errors = await self._validate_user_credentials(
+            KatClient(
+                self.hass,
+                PersonType.INDIVIDUAL,
+                existing_person_egn,
+                new_document_number,
+                new_document_type,
+                None,
+            )
+        )
 
-                if errors:
-                    return self.async_show_form(
-                        step_id=STEP_ID_RECONFIGURE,
-                        data_schema=reconfigure_data_schema,
-                        errors=errors,
-                    )
+        if errors:
+            return self.async_show_form(
+                step_id=STEP_ID_RECONFIGURE,
+                data_schema=reconfigure_data_schema,
+                errors=errors,
+            )
 
-            case PersonType.BUSINESS:
-                errors = await self._validate_user_credentials(
-                    KatClient(
-                        self.hass,
-                        PersonType.BUSINESS,
-                        reconfigure_entry.data[CONF_PERSON_EGN],
-                        new_document_number,
-                        reconfigure_entry.data[CONF_BULSTAT],
-                    )
-                )
+        return self.async_update_reload_and_abort(
+            reconfigure_entry, data_updates={**user_input}
+        )
 
-                if errors:
-                    return self.async_show_form(
-                        step_id=STEP_ID_RECONFIGURE,
-                        data_schema=reconfigure_data_schema,
-                        errors=errors,
-                    )
-            case _:
-                return self.async_show_form(
-                    step_id=STEP_ID_RECONFIGURE,
-                    data_schema=None,
-                    errors={"base": "invalid_type"},
-                )
+    async def _async_step_reconfigure_business(
+        self,
+        reconfigure_entry: ConfigEntry[Any],
+        user_input: dict[str, Any] | None = None,
+    ) -> ConfigFlowResult:
+        """Reconfigure the business step."""
+
+        reconfigure_data_schema = vol.Schema(
+            {
+                vol.Required(
+                    CONF_DOCUMENT_NUMBER,
+                    default=reconfigure_entry.data.get(CONF_DOCUMENT_NUMBER, ""),
+                ): str,
+            }
+        )
+
+        if not user_input:
+            return self.async_show_form(
+                step_id=STEP_ID_RECONFIGURE,
+                data_schema=reconfigure_data_schema,
+            )
+
+        existing_person_egn = reconfigure_entry.data[CONF_PERSON_EGN]
+        existing_bulstat = reconfigure_entry.data[CONF_BULSTAT]
+
+        new_document_number = user_input[CONF_DOCUMENT_NUMBER]
+
+        errors = await self._validate_user_credentials(
+            KatClient(
+                self.hass,
+                PersonType.BUSINESS,
+                existing_person_egn,
+                new_document_number,
+                None,
+                existing_bulstat,
+            )
+        )
+
+        if errors:
+            return self.async_show_form(
+                step_id=STEP_ID_RECONFIGURE,
+                data_schema=reconfigure_data_schema,
+                errors=errors,
+            )
 
         return self.async_update_reload_and_abort(
             reconfigure_entry, data_updates={**user_input}

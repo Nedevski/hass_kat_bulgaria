@@ -17,6 +17,7 @@ class KatClient:
     person_type: str
     person_egn: str
     person_document_number: str
+    person_document_type: str | None
     bulstat: str | None
 
     def __init__(
@@ -25,6 +26,7 @@ class KatClient:
         person_type: str,
         egn: str,
         document_number: str,
+        document_type: str | None,
         bulstat: str | None,
     ) -> None:
         """Initialize client."""
@@ -36,7 +38,14 @@ class KatClient:
         self.person_type = person_type
         self.person_egn = egn
         self.person_document_number = document_number
+        self.person_document_type = None
         self.bulstat = None
+
+        if self.person_type == PersonType.INDIVIDUAL:
+            if document_type is None:
+                raise ValueError("Document type is required for individual type")
+
+            self.person_document_type = document_type
 
         if self.person_type == PersonType.BUSINESS:
             if bulstat is None:
@@ -46,14 +55,13 @@ class KatClient:
 
     async def validate_credentials(self) -> bool:
         """Validate EGN/License Number."""
-        if self.person_type == PersonType.BUSINESS:
-            return await self.api.validate_credentials_business(
-                self.person_egn, self.person_document_number, self.bulstat
-            )
 
-        return await self.api.validate_credentials_individual(
-            self.person_egn, self.person_document_number
-        )
+        obligations = await self.get_obligations()
+
+        if not obligations:
+            return False
+
+        return True
 
     async def get_obligations(self) -> list[KatObligation]:
         """Get obligations."""
@@ -63,5 +71,5 @@ class KatClient:
             )
 
         return await self.api.get_obligations_individual(
-            self.person_egn, self.person_document_number
+            self.person_egn, self.person_document_type, self.person_document_number
         )

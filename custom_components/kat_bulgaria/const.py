@@ -11,6 +11,7 @@ CONF_DRIVING_LICENSE = "driving_license_number"
 
 CONF_PERSON_NAME = "person_name"
 CONF_PERSON_EGN = "egn"
+CONF_DOCUMENT_TYPE = "document_type"
 CONF_DOCUMENT_NUMBER = "document_number"
 
 CONF_BULSTAT = "business_bulstat"

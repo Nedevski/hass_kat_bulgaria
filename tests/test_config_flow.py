@@ -18,39 +18,20 @@ from . import (
     BULSTAT_VALID,
     EGN_VALID,
     MOCK_DATA_BUSINESS,
+    MOCK_DATA_BUSINESS_FULL,
     MOCK_DATA_INDIVIDUAL,
-    MOCK_DATA_PERSON_TYPE_BUSINESS,
-    MOCK_DATA_PERSON_TYPE_INDIVIDUAL,
+    MOCK_DATA_INDIVIDUAL_FULL,
     MOCK_NAME,
 )
 
 from tests.common import MockConfigEntry
 
 PATCH_VALIDATE_CREDS_INDIVIDUAL = (
-    "kat_bulgaria.kat_api_client.KatApiClient.validate_credentials_individual"
+    "kat_bulgaria.kat_api_client.KatApiClient.get_obligations_individual"
 )
 PATCH_VALIDATE_CREDS_BUSINESS = (
-    "kat_bulgaria.kat_api_client.KatApiClient.validate_credentials_business"
+    "kat_bulgaria.kat_api_client.KatApiClient.get_obligations_business"
 )
-
-
-@pytest.mark.asyncio
-async def test_flow_init_nodata_opens_configflow(hass: HomeAssistant) -> None:
-    """Test config flow."""
-
-    config_flow_user = await hass.config_entries.flow.async_init(
-        kat_constants.DOMAIN, context={"source": STEP_ID_USER}
-    )
-    assert config_flow_user["type"] is FlowResultType.FORM
-    assert config_flow_user["step_id"] == STEP_ID_USER
-
-    config_flow_individual = await hass.config_entries.flow.async_configure(
-        config_flow_user["flow_id"],
-    )
-    await hass.async_block_till_done()
-
-    assert config_flow_individual["type"] is FlowResultType.FORM
-    assert config_flow_individual["step_id"] == STEP_ID_USER
 
 
 @pytest.mark.asyncio
@@ -60,12 +41,11 @@ async def test_flow_init_individual(hass: HomeAssistant) -> None:
     config_flow_user = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN, context={"source": STEP_ID_USER}
     )
-    assert config_flow_user["type"] is FlowResultType.FORM
+    assert config_flow_user["type"] is FlowResultType.MENU
     assert config_flow_user["step_id"] == STEP_ID_USER
 
     config_flow_individual = await hass.config_entries.flow.async_configure(
-        config_flow_user["flow_id"],
-        user_input=MOCK_DATA_PERSON_TYPE_INDIVIDUAL,
+        config_flow_user["flow_id"], user_input={"next_step_id": STEP_ID_INDIVIDUAL}
     )
     await hass.async_block_till_done()
 
@@ -80,12 +60,11 @@ async def test_flow_init_business(hass: HomeAssistant) -> None:
     config_flow_user = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN, context={"source": STEP_ID_USER}
     )
-    assert config_flow_user["type"] is FlowResultType.FORM
+    assert config_flow_user["type"] is FlowResultType.MENU
     assert config_flow_user["step_id"] == STEP_ID_USER
 
     config_flow_business = await hass.config_entries.flow.async_configure(
-        config_flow_user["flow_id"],
-        user_input=MOCK_DATA_PERSON_TYPE_BUSINESS,
+        config_flow_user["flow_id"], user_input={"next_step_id": STEP_ID_BUSINESS}
     )
     await hass.async_block_till_done()
 
@@ -94,14 +73,12 @@ async def test_flow_init_business(hass: HomeAssistant) -> None:
 
 
 @pytest.mark.asyncio
-@patch(PATCH_VALIDATE_CREDS_INDIVIDUAL, AsyncMock(return_value=True))
+@patch(PATCH_VALIDATE_CREDS_INDIVIDUAL, AsyncMock(return_value=[]))
 async def test_flow_individual(hass: HomeAssistant) -> None:
     """Test config flow."""
 
     config_flow_individual = await hass.config_entries.flow.async_init(
-        kat_constants.DOMAIN,
-        context={"source": STEP_ID_INDIVIDUAL},
-        data=MOCK_DATA_PERSON_TYPE_INDIVIDUAL,
+        kat_constants.DOMAIN, context={"source": STEP_ID_INDIVIDUAL}
     )
 
     config_result = await hass.config_entries.flow.async_configure(
@@ -112,18 +89,16 @@ async def test_flow_individual(hass: HomeAssistant) -> None:
 
     assert config_result["type"] is FlowResultType.CREATE_ENTRY
     assert config_result["title"] == MOCK_NAME
-    assert config_result["data"] == MOCK_DATA_INDIVIDUAL
+    assert config_result["data"] == MOCK_DATA_INDIVIDUAL_FULL
 
 
 @pytest.mark.asyncio
-@patch(PATCH_VALIDATE_CREDS_BUSINESS, AsyncMock(return_value=True))
+@patch(PATCH_VALIDATE_CREDS_BUSINESS, AsyncMock(return_value=[]))
 async def test_flow_business(hass: HomeAssistant) -> None:
     """Test config flow."""
 
     config_flow_individual = await hass.config_entries.flow.async_init(
-        kat_constants.DOMAIN,
-        context={"source": STEP_ID_BUSINESS},
-        data=MOCK_DATA_PERSON_TYPE_BUSINESS,
+        kat_constants.DOMAIN, context={"source": STEP_ID_BUSINESS}
     )
 
     config_result = await hass.config_entries.flow.async_configure(
@@ -134,7 +109,7 @@ async def test_flow_business(hass: HomeAssistant) -> None:
 
     assert config_result["type"] is FlowResultType.CREATE_ENTRY
     assert config_result["title"] == MOCK_NAME
-    assert config_result["data"] == MOCK_DATA_BUSINESS
+    assert config_result["data"] == MOCK_DATA_BUSINESS_FULL
 
 
 @pytest.mark.asyncio
@@ -154,7 +129,6 @@ async def test_flow_error_egn_invalid_individual(hass: HomeAssistant) -> None:
     config_flow_individual = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN,
         context={"source": STEP_ID_INDIVIDUAL},
-        data=MOCK_DATA_PERSON_TYPE_INDIVIDUAL,
     )
 
     config_result = await hass.config_entries.flow.async_configure(
@@ -184,7 +158,6 @@ async def test_flow_error_egn_invalid_business(hass: HomeAssistant) -> None:
     config_flow_individual = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN,
         context={"source": STEP_ID_BUSINESS},
-        data=MOCK_DATA_PERSON_TYPE_BUSINESS,
     )
 
     config_result = await hass.config_entries.flow.async_configure(
@@ -214,7 +187,6 @@ async def test_flow_error_notfoundonline_individual(hass: HomeAssistant) -> None
     config_flow_individual = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN,
         context={"source": STEP_ID_INDIVIDUAL},
-        data=MOCK_DATA_PERSON_TYPE_INDIVIDUAL,
     )
 
     config_result = await hass.config_entries.flow.async_configure(
@@ -244,7 +216,6 @@ async def test_flow_error_notfoundonline_business(hass: HomeAssistant) -> None:
     config_flow_individual = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN,
         context={"source": STEP_ID_BUSINESS},
-        data=MOCK_DATA_PERSON_TYPE_BUSINESS,
     )
 
     config_result = await hass.config_entries.flow.async_configure(
@@ -274,7 +245,6 @@ async def test_flow_error_invalid_document_individual(hass: HomeAssistant) -> No
     config_flow_individual = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN,
         context={"source": STEP_ID_INDIVIDUAL},
-        data=MOCK_DATA_PERSON_TYPE_INDIVIDUAL,
     )
 
     config_result = await hass.config_entries.flow.async_configure(
@@ -304,7 +274,6 @@ async def test_flow_error_invalid_document_business(hass: HomeAssistant) -> None
     config_flow_individual = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN,
         context={"source": STEP_ID_BUSINESS},
-        data=MOCK_DATA_PERSON_TYPE_BUSINESS,
     )
 
     config_result = await hass.config_entries.flow.async_configure(
@@ -332,7 +301,6 @@ async def test_flow_error_api_timeout_individual(hass: HomeAssistant) -> None:
     config_flow_individual = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN,
         context={"source": STEP_ID_INDIVIDUAL},
-        data=MOCK_DATA_PERSON_TYPE_INDIVIDUAL,
     )
 
     config_result = await hass.config_entries.flow.async_configure(
@@ -360,7 +328,6 @@ async def test_flow_error_api_timeout_business(hass: HomeAssistant) -> None:
     config_flow_individual = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN,
         context={"source": STEP_ID_BUSINESS},
-        data=MOCK_DATA_PERSON_TYPE_BUSINESS,
     )
 
     config_result = await hass.config_entries.flow.async_configure(
@@ -390,7 +357,6 @@ async def test_flow_error_api_error_reading_data_individual(
     config_flow_individual = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN,
         context={"source": STEP_ID_INDIVIDUAL},
-        data=MOCK_DATA_PERSON_TYPE_INDIVIDUAL,
     )
 
     config_result = await hass.config_entries.flow.async_configure(
@@ -418,7 +384,6 @@ async def test_flow_error_api_error_reading_data_business(hass: HomeAssistant) -
     config_flow_individual = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN,
         context={"source": STEP_ID_BUSINESS},
-        data=MOCK_DATA_PERSON_TYPE_BUSINESS,
     )
 
     config_result = await hass.config_entries.flow.async_configure(
@@ -448,7 +413,6 @@ async def test_flow_error_api_invalid_schema_individual(
     config_flow_individual = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN,
         context={"source": STEP_ID_INDIVIDUAL},
-        data=MOCK_DATA_PERSON_TYPE_INDIVIDUAL,
     )
 
     config_result = await hass.config_entries.flow.async_configure(
@@ -476,7 +440,6 @@ async def test_flow_error_api_invalid_schema_business(hass: HomeAssistant) -> No
     config_flow_individual = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN,
         context={"source": STEP_ID_BUSINESS},
-        data=MOCK_DATA_PERSON_TYPE_BUSINESS,
     )
 
     config_result = await hass.config_entries.flow.async_configure(
@@ -506,7 +469,6 @@ async def test_flow_error_api_too_many_requests_individual(
     config_flow_individual = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN,
         context={"source": STEP_ID_INDIVIDUAL},
-        data=MOCK_DATA_PERSON_TYPE_INDIVIDUAL,
     )
 
     config_result = await hass.config_entries.flow.async_configure(
@@ -534,7 +496,6 @@ async def test_flow_error_api_too_many_requests_business(hass: HomeAssistant) ->
     config_flow_individual = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN,
         context={"source": STEP_ID_BUSINESS},
-        data=MOCK_DATA_PERSON_TYPE_BUSINESS,
     )
 
     config_result = await hass.config_entries.flow.async_configure(
@@ -564,7 +525,6 @@ async def test_flow_error_api_unknown_error_individual(
     config_flow_individual = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN,
         context={"source": STEP_ID_INDIVIDUAL},
-        data=MOCK_DATA_PERSON_TYPE_INDIVIDUAL,
     )
 
     config_result = await hass.config_entries.flow.async_configure(
@@ -592,7 +552,6 @@ async def test_flow_error_api_unknown_error_business(hass: HomeAssistant) -> Non
     config_flow_individual = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN,
         context={"source": STEP_ID_BUSINESS},
-        data=MOCK_DATA_PERSON_TYPE_BUSINESS,
     )
 
     config_result = await hass.config_entries.flow.async_configure(
@@ -606,7 +565,7 @@ async def test_flow_error_api_unknown_error_business(hass: HomeAssistant) -> Non
 
 
 @pytest.mark.asyncio
-@patch(PATCH_VALIDATE_CREDS_INDIVIDUAL, AsyncMock(return_value=True))
+@patch(PATCH_VALIDATE_CREDS_INDIVIDUAL, AsyncMock(return_value=[]))
 async def test_flow_error_already_configured_individual(
     hass: HomeAssistant,
 ) -> None:
@@ -614,7 +573,7 @@ async def test_flow_error_already_configured_individual(
 
     entry = MockConfigEntry(
         domain=kat_constants.DOMAIN,
-        data=MOCK_DATA_INDIVIDUAL,
+        data=MOCK_DATA_INDIVIDUAL_FULL,
         unique_id=EGN_VALID,
     )
     entry.add_to_hass(hass)
@@ -622,7 +581,6 @@ async def test_flow_error_already_configured_individual(
     config_flow_individual = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN,
         context={"source": STEP_ID_INDIVIDUAL},
-        data=MOCK_DATA_PERSON_TYPE_INDIVIDUAL,
     )
 
     config_result = await hass.config_entries.flow.async_configure(
@@ -644,7 +602,7 @@ async def test_flow_error_already_configured_business(
 
     entry = MockConfigEntry(
         domain=kat_constants.DOMAIN,
-        data=MOCK_DATA_BUSINESS,
+        data=MOCK_DATA_BUSINESS_FULL,
         unique_id=BULSTAT_VALID,
     )
     entry.add_to_hass(hass)
@@ -652,7 +610,6 @@ async def test_flow_error_already_configured_business(
     config_flow_individual = await hass.config_entries.flow.async_init(
         kat_constants.DOMAIN,
         context={"source": STEP_ID_BUSINESS},
-        data=MOCK_DATA_PERSON_TYPE_BUSINESS,
     )
 
     config_result = await hass.config_entries.flow.async_configure(
