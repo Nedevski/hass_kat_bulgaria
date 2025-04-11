@@ -1,4 +1,4 @@
-name: "Publish"
+name: Publish ZIP to GitHub Release
 
 on:
   release:
