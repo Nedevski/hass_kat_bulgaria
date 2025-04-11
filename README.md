@@ -25,6 +25,8 @@ For English description scroll to the bottom!
 
 След инсталация, в основното меню ще се появи линк към HACS. В неговата страница има търсачка, която филтрира всички неофициални интеграции - там може да се потърси **"KAT Bulgaria"** и след отваряне на интеграцията да се свали чрез Download бутона.
 
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Nedevski&repository=hass_kat_bulgaria&category=integration)
+
 **След сваляне е задължително да се рестартира Home Assistant!**
 
 След рестарт се добавя като нормална интеграция: Настройки => Устройства и услуги => Добавяне на интеграция => KAT Bulgaria.
