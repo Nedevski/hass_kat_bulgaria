@@ -2,10 +2,11 @@
 
 For English description scroll to the bottom!
 
-![Downloads](https://img.shields.io/github/downloads/nedevski/hass_kat_bulgaria/latest/total)
+![Downloads](https://img.shields.io/github/downloads/nedevski/hass_kat_bulgaria/latest/total?style=flat-square)
 ![Last release](https://img.shields.io/github/release-date/nedevski/hacs_kat_bulgaria?style=flat-square)
 ![Code size](https://img.shields.io/github/languages/code-size/nedevski/hacs_kat_bulgaria?style=flat-square)
-![Quality Gate](https://img.shields.io/sonar/quality_gate/Nedevski_hass_kat_bulgaria?server=https%3A%2F%2Fsonarcloud.io)
+
+<!-- ![Quality Gate](https://img.shields.io/sonar/quality_gate/Nedevski_hass_kat_bulgaria?server=https%3A%2F%2Fsonarcloud.io&style=flat-square) -->
 
 ---
 
