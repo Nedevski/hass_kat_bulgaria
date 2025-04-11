@@ -18,6 +18,8 @@ from tests.common import MockConfigEntry
 
 # region coordinator setup
 
+PATCH_GET_OBLIGATIONS = "homeassistant.components.kat_bulgaria.kat_client.KatClient.get_obligations"
+TEST_ERROR_TEXT = TEST_ERROR_TEXT
 
 @pytest.fixture(name="config_entry_v1")
 def mock_config_entry_v1() -> MockConfigEntry:
@@ -53,9 +55,7 @@ def mock_config_entry_v2__business() -> MockConfigEntry:
 def mock_get_obligations_ok_nodata():
     """Mock get obligations."""
 
-    with patch(
-        "homeassistant.components.kat_bulgaria.kat_client.KatClient.get_obligations"
-    ) as mock_get_obligations:
+    with patch(PATCH_GET_OBLIGATIONS) as mock_get_obligations:
         mock_get_obligations.return_value = []
         yield
 
@@ -64,13 +64,11 @@ def mock_get_obligations_ok_nodata():
 def mock_get_obligations_err_usernotfound():
     """Mock get obligations."""
 
-    with patch(
-        "homeassistant.components.kat_bulgaria.kat_client.KatClient.get_obligations"
-    ) as mock_get_obligations:
+    with patch(PATCH_GET_OBLIGATIONS) as mock_get_obligations:
         mock_get_obligations.side_effect = KatError(
             KatErrorType.API_ERROR,
             KatErrorSubtype.VALIDATION_USER_NOT_FOUND_ONLINE,
-            "error text",
+            TEST_ERROR_TEXT,
         )
         yield
 
@@ -79,13 +77,11 @@ def mock_get_obligations_err_usernotfound():
 def mock_get_obligations_err_driving_license_invalid():
     """Mock get obligations."""
 
-    with patch(
-        "homeassistant.components.kat_bulgaria.kat_client.KatClient.get_obligations"
-    ) as mock_get_obligations:
+    with patch(PATCH_GET_OBLIGATIONS) as mock_get_obligations:
         mock_get_obligations.side_effect = KatError(
             KatErrorType.VALIDATION_ERROR,
             KatErrorSubtype.VALIDATION_DRIVING_LICENSE_INVALID,
-            "error text",
+            TEST_ERROR_TEXT,
         )
         yield
 
@@ -94,13 +90,11 @@ def mock_get_obligations_err_driving_license_invalid():
 def mock_get_obligations_err_gov_id_number_invalid():
     """Mock get obligations."""
 
-    with patch(
-        "homeassistant.components.kat_bulgaria.kat_client.KatClient.get_obligations"
-    ) as mock_get_obligations:
+    with patch(PATCH_GET_OBLIGATIONS) as mock_get_obligations:
         mock_get_obligations.side_effect = KatError(
             KatErrorType.VALIDATION_ERROR,
             KatErrorSubtype.VALIDATION_GOV_ID_NUMBER_INVALID,
-            "error text",
+            TEST_ERROR_TEXT,
         )
         yield
 
@@ -109,13 +103,11 @@ def mock_get_obligations_err_gov_id_number_invalid():
 def mock_get_obligations_err_bulstat_invalid():
     """Mock get obligations."""
 
-    with patch(
-        "homeassistant.components.kat_bulgaria.kat_client.KatClient.get_obligations"
-    ) as mock_get_obligations:
+    with patch(PATCH_GET_OBLIGATIONS) as mock_get_obligations:
         mock_get_obligations.side_effect = KatError(
             KatErrorType.VALIDATION_ERROR,
             KatErrorSubtype.VALIDATION_GOV_ID_NUMBER_INVALID,
-            "error text",
+            TEST_ERROR_TEXT,
         )
         yield
 
@@ -124,11 +116,9 @@ def mock_get_obligations_err_bulstat_invalid():
 def mock_get_obligations_err_api_timeout():
     """Mock get obligations."""
 
-    with patch(
-        "homeassistant.components.kat_bulgaria.kat_client.KatClient.get_obligations"
-    ) as mock_get_obligations:
+    with patch(PATCH_GET_OBLIGATIONS) as mock_get_obligations:
         mock_get_obligations.side_effect = KatError(
-            KatErrorType.API_ERROR, KatErrorSubtype.API_TIMEOUT, "error text"
+            KatErrorType.API_ERROR, KatErrorSubtype.API_TIMEOUT, TEST_ERROR_TEXT
         )
         yield
 
@@ -137,11 +127,9 @@ def mock_get_obligations_err_api_timeout():
 def mock_get_obligations_err_api_toomanyrequests():
     """Mock get obligations."""
 
-    with patch(
-        "homeassistant.components.kat_bulgaria.kat_client.KatClient.get_obligations"
-    ) as mock_get_obligations:
+    with patch(PATCH_GET_OBLIGATIONS) as mock_get_obligations:
         mock_get_obligations.side_effect = KatError(
-            KatErrorType.API_ERROR, KatErrorSubtype.API_TOO_MANY_REQUESTS, "error text"
+            KatErrorType.API_ERROR, KatErrorSubtype.API_TOO_MANY_REQUESTS, TEST_ERROR_TEXT
         )
         yield
 
@@ -150,11 +138,9 @@ def mock_get_obligations_err_api_toomanyrequests():
 def mock_get_obligations_err_api_errorreadingdata():
     """Mock get obligations."""
 
-    with patch(
-        "homeassistant.components.kat_bulgaria.kat_client.KatClient.get_obligations"
-    ) as mock_get_obligations:
+    with patch(PATCH_GET_OBLIGATIONS) as mock_get_obligations:
         mock_get_obligations.side_effect = KatError(
-            KatErrorType.API_ERROR, KatErrorSubtype.API_ERROR_READING_DATA, "error text"
+            KatErrorType.API_ERROR, KatErrorSubtype.API_ERROR_READING_DATA, TEST_ERROR_TEXT
         )
         yield
 
@@ -163,11 +149,9 @@ def mock_get_obligations_err_api_errorreadingdata():
 def mock_get_obligations_err_api_invalidschema():
     """Mock get obligations."""
 
-    with patch(
-        "homeassistant.components.kat_bulgaria.kat_client.KatClient.get_obligations"
-    ) as mock_get_obligations:
+    with patch(PATCH_GET_OBLIGATIONS) as mock_get_obligations:
         mock_get_obligations.side_effect = KatError(
-            KatErrorType.API_ERROR, KatErrorSubtype.API_INVALID_SCHEMA, "error text"
+            KatErrorType.API_ERROR, KatErrorSubtype.API_INVALID_SCHEMA, TEST_ERROR_TEXT
         )
         yield
 
@@ -176,10 +160,8 @@ def mock_get_obligations_err_api_invalidschema():
 def mock_get_obligations_err_api_unknown():
     """Mock get obligations."""
 
-    with patch(
-        "homeassistant.components.kat_bulgaria.kat_client.KatClient.get_obligations"
-    ) as mock_get_obligations:
+    with patch(PATCH_GET_OBLIGATIONS) as mock_get_obligations:
         mock_get_obligations.side_effect = KatError(
-            KatErrorType.API_ERROR, KatErrorSubtype.API_UNKNOWN_ERROR, "error text"
+            KatErrorType.API_ERROR, KatErrorSubtype.API_UNKNOWN_ERROR, TEST_ERROR_TEXT
         )
         yield
