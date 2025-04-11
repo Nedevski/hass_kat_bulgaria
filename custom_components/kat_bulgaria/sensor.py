@@ -4,7 +4,7 @@ from kat_bulgaria.data_models import KatObligation
 
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .const import COORD_DATA_KEY
 from .coordinator import KatBulgariaConfigEntry, KatBulgariaUpdateCoordinator
@@ -14,7 +14,7 @@ from .entity import KatBulgariaEntity
 async def async_setup_entry(
     hass: HomeAssistant,
     entry: KatBulgariaConfigEntry,
-    async_add_entities: AddEntitiesCallback,
+    async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up KAT Bulgaria sensors based on a config entry."""
 
@@ -76,7 +76,7 @@ class KatBulgariaServedTicketCountSensor(KatBulgariaEntity, SensorEntity):
 
 
 class KatBulgariaNotServedTicketCountSensor(KatBulgariaEntity, SensorEntity):
-    """Defines a Non-Served Ticket Count sensor."""
+    """Defines a non-served Ticket Count sensor."""
 
     _obligations: list[KatObligation]
 

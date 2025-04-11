@@ -3,7 +3,7 @@
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN
+from .const import DOMAIN, PersonType
 from .coordinator import KatBulgariaUpdateCoordinator
 
 
@@ -16,9 +16,15 @@ class KatBulgariaEntity(CoordinatorEntity[KatBulgariaUpdateCoordinator]):
         """Initialize airgradient entity."""
 
         super().__init__(coordinator)
-        self._attr_unique_id: str = coordinator.client.person_egn
+
+        unique_id = coordinator.client.person_egn
+
+        if coordinator.client.person_type == PersonType.BUSINESS:
+            unique_id = coordinator.client.bulstat
+
+        self._attr_unique_id: str = unique_id
         self._attr_device_info = DeviceInfo(
-            identifiers={(DOMAIN, coordinator.serial_number)},
+            identifiers={(DOMAIN, unique_id)},
             manufacturer="KAT Bulgaria",
-            serial_number=coordinator.client.person_egn,
+            serial_number=unique_id,
         )

@@ -4,6 +4,7 @@
       "already_configured": "Device is already configured.",
       "cannot_connect": "KAT's website is down, try again.",
       "invalid_config": "Invalid EGN or Driver License Number.",
+      "reconfigure_successful": "Reconfiguration successful.",
       "unknown": "Unknown error, check the logs for more details."
     },
     "error": {
@@ -12,12 +13,37 @@
       "unknown": "Unknown error, check the logs for more details."
     },
     "step": {
-      "user": {
+      "business": {
         "data": {
-          "driving_license_number": "Driving license number",
+          "business_bulstat": "BULSTAT",
+          "document_number": "Government ID number",
           "egn": "Unified Civil Number (EGN)",
           "person_name": "Person name"
-        }
+        },
+        "title": "Configuration - Business"
+      },
+      "individual": {
+        "data": {
+          "document_number": "Document Number",
+          "document_type": "Document Type",
+          "egn": "Unified Civil Number (EGN)",
+          "person_name": "Person name"
+        },
+        "title": "Configuration - Individual"
+      },
+      "reconfigure": {
+        "data": {
+          "document_number": "Document Number",
+          "document_type": "Document Type"
+        },
+        "title": "Update document information"
+      },
+      "user": {
+        "menu_options": {
+          "business": "Business",
+          "individual": "Individual"
+        },
+        "title": "Configuration"
       }
     }
   },
@@ -50,6 +76,14 @@
       },
       "total_ticket_count": {
         "name": "Count Total"
+      }
+    }
+  },
+  "selector": {
+    "document_type": {
+      "options": {
+        "driving_license": "Driving License",
+        "national_id": "National ID"
       }
     }
   }
