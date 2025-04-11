@@ -18,8 +18,11 @@ from tests.common import MockConfigEntry
 
 # region coordinator setup
 
-PATCH_GET_OBLIGATIONS = "homeassistant.components.kat_bulgaria.kat_client.KatClient.get_obligations"
+PATCH_GET_OBLIGATIONS = (
+    "homeassistant.components.kat_bulgaria.kat_client.KatClient.get_obligations"
+)
 TEST_ERROR_TEXT = "error text"
+
 
 @pytest.fixture(name="config_entry_v1")
 def mock_config_entry_v1() -> MockConfigEntry:
@@ -129,7 +132,9 @@ def mock_get_obligations_err_api_toomanyrequests():
 
     with patch(PATCH_GET_OBLIGATIONS) as mock_get_obligations:
         mock_get_obligations.side_effect = KatError(
-            KatErrorType.API_ERROR, KatErrorSubtype.API_TOO_MANY_REQUESTS, TEST_ERROR_TEXT
+            KatErrorType.API_ERROR,
+            KatErrorSubtype.API_TOO_MANY_REQUESTS,
+            TEST_ERROR_TEXT,
         )
         yield
 
@@ -140,7 +145,9 @@ def mock_get_obligations_err_api_errorreadingdata():
 
     with patch(PATCH_GET_OBLIGATIONS) as mock_get_obligations:
         mock_get_obligations.side_effect = KatError(
-            KatErrorType.API_ERROR, KatErrorSubtype.API_ERROR_READING_DATA, TEST_ERROR_TEXT
+            KatErrorType.API_ERROR,
+            KatErrorSubtype.API_ERROR_READING_DATA,
+            TEST_ERROR_TEXT,
         )
         yield
 
