@@ -19,7 +19,7 @@ from tests.common import MockConfigEntry
 # region coordinator setup
 
 PATCH_GET_OBLIGATIONS = "homeassistant.components.kat_bulgaria.kat_client.KatClient.get_obligations"
-TEST_ERROR_TEXT = TEST_ERROR_TEXT
+TEST_ERROR_TEXT = "error text"
 
 @pytest.fixture(name="config_entry_v1")
 def mock_config_entry_v1() -> MockConfigEntry:
