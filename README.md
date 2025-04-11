@@ -2,12 +2,14 @@
 
 For English description scroll to the bottom!
 
+![Downloads](https://img.shields.io/github/downloads/nedevski/hass_kat_bulgaria/latest/total)
 ![Last release](https://img.shields.io/github/release-date/nedevski/hacs_kat_bulgaria?style=flat-square)
 ![Code size](https://img.shields.io/github/languages/code-size/nedevski/hacs_kat_bulgaria?style=flat-square)
+![Quality Gate](https://img.shields.io/sonar/quality_gate/Nedevski_hass_kat_bulgaria?server=https%3A%2F%2Fsonarcloud.io)
 
 ---
 
-Тази интеграция позволява да се следи дали човек има нови глоби към КАТ България. Интеграцията взима информацията директно от официалния сайт на КАТ ([e-uslugi.mvr.bg](https://e-uslugi.mvr.bg/services/kat-obligations)) без да логва абсолютно нищо. Единственото място на което се пазят данните е локално, като конфигурация на интеграцията.
+Тази интеграция позволява да се следят наличните глоби към КАТ България. Интеграцията взима информацията директно от официалния сайт на КАТ ([e-uslugi.mvr.bg](https://e-uslugi.mvr.bg/services/kat-obligations)) без да логва абсолютно нищо. Единственото място на което се пазят данните е локално, като конфигурация на интеграцията.
 
 ---
 
