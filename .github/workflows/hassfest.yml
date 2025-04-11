@@ -2,6 +2,8 @@ name: Hassfest - Validate
 
 on:
   push:
+    branches:
+      - main
   pull_request:
 
 concurrency:
