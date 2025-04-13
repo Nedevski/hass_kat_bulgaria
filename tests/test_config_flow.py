@@ -21,17 +21,12 @@ from . import (
     MOCK_DATA_BUSINESS_FULL,
     MOCK_DATA_INDIVIDUAL,
     MOCK_DATA_INDIVIDUAL_FULL,
-    MOCK_NAME,
+    MOCK_ENTRY_TITLE,
+    PATCH_VALIDATE_CREDS_BUSINESS,
+    PATCH_VALIDATE_CREDS_INDIVIDUAL,
 )
 
 from tests.common import MockConfigEntry
-
-PATCH_VALIDATE_CREDS_INDIVIDUAL = (
-    "kat_bulgaria.kat_api_client.KatApiClient.get_obligations_individual"
-)
-PATCH_VALIDATE_CREDS_BUSINESS = (
-    "kat_bulgaria.kat_api_client.KatApiClient.get_obligations_business"
-)
 
 
 @pytest.mark.asyncio
@@ -88,7 +83,7 @@ async def test_flow_individual(hass: HomeAssistant) -> None:
     await hass.async_block_till_done()
 
     assert config_result["type"] is FlowResultType.CREATE_ENTRY
-    assert config_result["title"] == MOCK_NAME
+    assert config_result["title"] == MOCK_ENTRY_TITLE
     assert config_result["data"] == MOCK_DATA_INDIVIDUAL_FULL
 
 
@@ -108,7 +103,7 @@ async def test_flow_business(hass: HomeAssistant) -> None:
     await hass.async_block_till_done()
 
     assert config_result["type"] is FlowResultType.CREATE_ENTRY
-    assert config_result["title"] == MOCK_NAME
+    assert config_result["title"] == MOCK_ENTRY_TITLE
     assert config_result["data"] == MOCK_DATA_BUSINESS_FULL
 
 
