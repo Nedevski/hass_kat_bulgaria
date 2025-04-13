@@ -2,7 +2,7 @@
 
 from kat_bulgaria.data_models import PersonalDocumentType
 
-from homeassistant.components.kat_bulgaria.const import (
+from custom_components.kat_bulgaria.const import (
     CONF_BULSTAT,
     CONF_DOCUMENT_NUMBER,
     CONF_DOCUMENT_TYPE,

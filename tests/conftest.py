@@ -5,7 +5,9 @@ from unittest.mock import patch
 from kat_bulgaria.errors import KatError, KatErrorSubtype, KatErrorType
 import pytest
 
-from homeassistant.components.kat_bulgaria.config_flow import DOMAIN
+from pytest_homeassistant_custom_component.common import MockConfigEntry
+
+from custom_components.kat_bulgaria.config_flow import DOMAIN
 
 from . import (
     EGN_VALID,
@@ -14,14 +16,21 @@ from . import (
     MOCK_DATA_V1,
 )
 
-from tests.common import MockConfigEntry
 
 # region coordinator setup
 
 PATCH_GET_OBLIGATIONS = (
-    "homeassistant.components.kat_bulgaria.kat_client.KatClient.get_obligations"
+    "custom_components.kat_bulgaria.kat_client.KatClient.get_obligations"
 )
 TEST_ERROR_TEXT = "error text"
+
+
+@pytest.fixture(autouse=True)
+def auto_enable_custom_integrations(enable_custom_integrations):
+    """Automatically enable loading custom integrations in all tests."""
+    # This fixture enables loading custom integrations in all tests.
+    # Remove to enable selective use of this fixture
+    yield
 
 
 @pytest.fixture(name="config_entry_v1")

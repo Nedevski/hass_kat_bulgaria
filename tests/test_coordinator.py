@@ -2,9 +2,12 @@
 
 import pytest
 
-from homeassistant.components.kat_bulgaria.const import COORD_DATA_KEY
 from homeassistant.config_entries import ConfigEntryState
 from homeassistant.core import HomeAssistant
+
+from pytest_homeassistant_custom_component.common import MockConfigEntry
+
+from custom_components.kat_bulgaria.const import COORD_DATA_KEY
 
 from . import (
     BULSTAT_VALID,
@@ -14,8 +17,6 @@ from . import (
     PersonalDocumentType,
     PersonType,
 )
-
-from tests.common import MockConfigEntry
 
 
 @pytest.mark.asyncio
