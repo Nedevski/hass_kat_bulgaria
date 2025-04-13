@@ -5,14 +5,17 @@ from unittest.mock import AsyncMock, patch
 from kat_bulgaria.errors import KatError, KatErrorSubtype, KatErrorType
 import pytest
 
-from homeassistant.components.kat_bulgaria import const as kat_constants
-from homeassistant.components.kat_bulgaria.config_flow import (
+from homeassistant.core import HomeAssistant
+from homeassistant.data_entry_flow import FlowResultType
+
+from pytest_homeassistant_custom_component.common import MockConfigEntry
+
+from custom_components.kat_bulgaria import const as kat_constants
+from custom_components.kat_bulgaria.config_flow import (
     STEP_ID_BUSINESS,
     STEP_ID_INDIVIDUAL,
     STEP_ID_USER,
 )
-from homeassistant.core import HomeAssistant
-from homeassistant.data_entry_flow import FlowResultType
 
 from . import (
     BULSTAT_VALID,
@@ -26,8 +29,6 @@ from . import (
     PATCH_VALIDATE_CREDS_INDIVIDUAL,
 )
 
-from tests.common import MockConfigEntry
-
 
 @pytest.mark.asyncio
 async def test_flow_init_individual(hass: HomeAssistant) -> None:
@@ -40,7 +41,8 @@ async def test_flow_init_individual(hass: HomeAssistant) -> None:
     assert config_flow_user["step_id"] == STEP_ID_USER
 
     config_flow_individual = await hass.config_entries.flow.async_configure(
-        config_flow_user["flow_id"], user_input={"next_step_id": STEP_ID_INDIVIDUAL}
+        config_flow_user["flow_id"], user_input={
+            "next_step_id": STEP_ID_INDIVIDUAL}
     )
     await hass.async_block_till_done()
 
@@ -59,7 +61,8 @@ async def test_flow_init_business(hass: HomeAssistant) -> None:
     assert config_flow_user["step_id"] == STEP_ID_USER
 
     config_flow_business = await hass.config_entries.flow.async_configure(
-        config_flow_user["flow_id"], user_input={"next_step_id": STEP_ID_BUSINESS}
+        config_flow_user["flow_id"], user_input={
+            "next_step_id": STEP_ID_BUSINESS}
     )
     await hass.async_block_till_done()
 

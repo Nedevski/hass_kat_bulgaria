@@ -5,13 +5,16 @@ from unittest.mock import AsyncMock, patch
 from kat_bulgaria.errors import KatError, KatErrorSubtype, KatErrorType
 import pytest
 
-from homeassistant.components.kat_bulgaria import (
+from homeassistant.core import HomeAssistant
+from homeassistant.data_entry_flow import FlowResultType
+
+from pytest_homeassistant_custom_component.common import MockConfigEntry
+
+from custom_components.kat_bulgaria import (
     CONF_PERSON_NAME,
     const as kat_constants,
 )
-from homeassistant.components.kat_bulgaria.config_flow import STEP_ID_RECONFIGURE
-from homeassistant.core import HomeAssistant
-from homeassistant.data_entry_flow import FlowResultType
+from custom_components.kat_bulgaria.config_flow import STEP_ID_RECONFIGURE
 
 from . import (
     BULSTAT_VALID,
@@ -29,7 +32,6 @@ from . import (
     PersonType,
 )
 
-from tests.common import MockConfigEntry
 
 ABORT_RECONFIGURE_SUCCESSFUL = "reconfigure_successful"
 
@@ -90,7 +92,8 @@ async def test_reconfigure_flow_individual_update_license_ok(
 
     assert config
     assert len(config) == 5
-    assert config.get(CONF_DOCUMENT_TYPE) == PersonalDocumentType.DRIVING_LICENSE
+    assert config.get(
+        CONF_DOCUMENT_TYPE) == PersonalDocumentType.DRIVING_LICENSE
     assert config.get(CONF_DOCUMENT_NUMBER) == UPDATED_LICENSE
     assert config.get(CONF_PERSON_TYPE) == PersonType.INDIVIDUAL
     assert config.get(CONF_PERSON_EGN) == EGN_VALID
@@ -138,7 +141,7 @@ async def test_reconfigure_flow_individual_update_license_to_gov_id_ok(
 
 @pytest.mark.asyncio
 @patch(
-    "homeassistant.components.kat_bulgaria.kat_client.KatClient.validate_credentials",
+    "custom_components.kat_bulgaria.kat_client.KatClient.validate_credentials",
     AsyncMock(
         side_effect=KatError(
             KatErrorType.VALIDATION_ERROR,
@@ -177,7 +180,8 @@ async def test_reconfigure_flow_individual_update_license_invalid(
     # unchanged
     assert config
     assert len(config) == 5
-    assert config.get(CONF_DOCUMENT_TYPE) == PersonalDocumentType.DRIVING_LICENSE
+    assert config.get(
+        CONF_DOCUMENT_TYPE) == PersonalDocumentType.DRIVING_LICENSE
     assert config.get(CONF_DOCUMENT_NUMBER) == LICENSE_VALID
     assert config.get(CONF_PERSON_TYPE) == PersonType.INDIVIDUAL
     assert config.get(CONF_PERSON_EGN) == EGN_VALID
@@ -187,7 +191,7 @@ async def test_reconfigure_flow_individual_update_license_invalid(
 
 @pytest.mark.asyncio
 @patch(
-    "homeassistant.components.kat_bulgaria.kat_client.KatClient.validate_credentials",
+    "custom_components.kat_bulgaria.kat_client.KatClient.validate_credentials",
     AsyncMock(
         side_effect=KatError(
             KatErrorType.VALIDATION_ERROR,
@@ -226,7 +230,8 @@ async def test_reconfigure_flow_individual_update_gov_id_invalid(
     # unchanged
     assert config
     assert len(config) == 5
-    assert config.get(CONF_DOCUMENT_TYPE) == PersonalDocumentType.DRIVING_LICENSE
+    assert config.get(
+        CONF_DOCUMENT_TYPE) == PersonalDocumentType.DRIVING_LICENSE
     assert config.get(CONF_DOCUMENT_NUMBER) == LICENSE_VALID
     assert config.get(CONF_PERSON_TYPE) == PersonType.INDIVIDUAL
     assert config.get(CONF_PERSON_EGN) == EGN_VALID
@@ -236,7 +241,7 @@ async def test_reconfigure_flow_individual_update_gov_id_invalid(
 
 @pytest.mark.asyncio
 @patch(
-    "homeassistant.components.kat_bulgaria.kat_client.KatClient.validate_credentials",
+    "custom_components.kat_bulgaria.kat_client.KatClient.validate_credentials",
     AsyncMock(
         side_effect=KatError(
             KatErrorType.VALIDATION_ERROR,
@@ -275,7 +280,8 @@ async def test_reconfigure_flow_individual_update_user_not_found(
     # unchanged
     assert config
     assert len(config) == 5
-    assert config.get(CONF_DOCUMENT_TYPE) == PersonalDocumentType.DRIVING_LICENSE
+    assert config.get(
+        CONF_DOCUMENT_TYPE) == PersonalDocumentType.DRIVING_LICENSE
     assert config.get(CONF_DOCUMENT_NUMBER) == LICENSE_VALID
     assert config.get(CONF_PERSON_TYPE) == PersonType.INDIVIDUAL
     assert config.get(CONF_PERSON_EGN) == EGN_VALID
@@ -324,7 +330,7 @@ async def test_reconfigure_flow_business_update_ok(
 
 @pytest.mark.asyncio
 @patch(
-    "homeassistant.components.kat_bulgaria.kat_client.KatClient.validate_credentials",
+    "custom_components.kat_bulgaria.kat_client.KatClient.validate_credentials",
     AsyncMock(
         side_effect=KatError(
             KatErrorType.VALIDATION_ERROR,
@@ -372,7 +378,7 @@ async def test_reconfigure_flow_business_update_gov_id_invalid(
 
 @pytest.mark.asyncio
 @patch(
-    "homeassistant.components.kat_bulgaria.kat_client.KatClient.validate_credentials",
+    "custom_components.kat_bulgaria.kat_client.KatClient.validate_credentials",
     AsyncMock(
         side_effect=KatError(
             KatErrorType.VALIDATION_ERROR,

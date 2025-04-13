@@ -1,0 +1,41 @@
+on:
+  # Trigger analysis when pushing to your main branches, and when creating a pull request.
+  push:
+    branches:
+      - main
+  pull_request:
+
+name: Build and Test
+jobs:
+  sonarqube:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Disabling shallow clones is recommended for improving the relevancy of sonar reporting
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip setuptools wheel build
+          pip install -r requirements.txt
+          pip install -r requirements-test.txt
+
+      - name: Build package
+        run: python -m build
+
+      - name: Run tests with pytest
+        run: |
+          pip install pytest pytest-cov
+          pytest --cov=./ --cov-report=xml --doctest-modules
+
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v5.1.0 # Ex: v4.1.0, See the latest version at https://github.com/marketplace/actions/official-sonarqube-scan
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          # SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
