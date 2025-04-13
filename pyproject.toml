@@ -1,0 +1,26 @@
+[project]
+name = "hass_kat_bulgaria"
+version = "2.0.0"
+description = "A custom HomeAssistant component to check for existing obligations from KAT Bulgaria"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.13"
+authors = [{ name = "Nikola Nedevski", email = "nikola.nedevski@gmail.com" }]
+keywords = ["kat", "mvr", "bulgaria", "homeassistant"]
+dependencies = ["py_kat_bulgaria"]
+
+[project.urls]
+Homepage = "https://github.com/Nedevski/hass_kat_bulgaria"
+Issues = "https://github.com/Nedevski/hass_kat_bulgaria/issues"
+Repository = "https://github.com/Nedevski/hass_kat_bulgaria.git"
+Donate = "https://ko-fi.com/nedevski/tip"
+
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools", "wheel"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+
+[tool.setuptools.packages.find]
+where = ["custom_components/kat_bulgaria"]
