@@ -79,7 +79,7 @@ class ConfigFlowHandler(ConfigFlow, domain=DOMAIN):
     async def async_step_individual(
         self, user_input: dict[str, Any]
     ) -> ConfigFlowResult:
-        """Handle the initial step."""
+        """Handle the individual setup step."""
 
         if user_input is None:
             return self.async_show_form(
@@ -119,7 +119,7 @@ class ConfigFlowHandler(ConfigFlow, domain=DOMAIN):
         return self.async_create_entry(title=f"KAT - {user_name}", data=user_input)
 
     async def async_step_business(self, user_input: dict[str, Any]) -> ConfigFlowResult:
-        """Handle the initial step."""
+        """Handle the business setup step."""
 
         if user_input is None:
             return self.async_show_form(
@@ -206,7 +206,8 @@ class ConfigFlowHandler(ConfigFlow, domain=DOMAIN):
                 ),
                 vol.Required(
                     CONF_DOCUMENT_NUMBER,
-                    default=reconfigure_entry.data.get(CONF_DOCUMENT_NUMBER, ""),
+                    default=reconfigure_entry.data.get(
+                        CONF_DOCUMENT_NUMBER, ""),
                 ): str,
             }
         )
@@ -254,7 +255,8 @@ class ConfigFlowHandler(ConfigFlow, domain=DOMAIN):
             {
                 vol.Required(
                     CONF_DOCUMENT_NUMBER,
-                    default=reconfigure_entry.data.get(CONF_DOCUMENT_NUMBER, ""),
+                    default=reconfigure_entry.data.get(
+                        CONF_DOCUMENT_NUMBER, ""),
                 ): str,
             }
         )

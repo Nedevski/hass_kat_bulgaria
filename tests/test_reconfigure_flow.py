@@ -422,3 +422,29 @@ async def test_reconfigure_flow_business_update_user_not_found(
     assert config.get(CONF_PERSON_NAME) == MOCK_USER_NAME
     assert config.get(CONF_BULSTAT) == BULSTAT_VALID
     assert config.get(CONF_DOCUMENT_TYPE) is None
+
+
+@pytest.mark.asyncio
+async def test_reconfigure_flow_update_invalid_person_type(
+    hass: HomeAssistant,
+    config_entry_v2_invalid_person_type: MockConfigEntry,
+    mock_get_obligations_ok_nodata,
+) -> None:
+    """Test reconfigure flow."""
+
+    config_entry_v2_invalid_person_type.add_to_hass(hass)
+
+    reconfigure_flow = await hass.config_entries.flow.async_init(
+        kat_constants.DOMAIN,
+        context={
+            "source": STEP_ID_RECONFIGURE,
+            "entry_id": config_entry_v2_invalid_person_type.entry_id,
+        },
+        data={
+            CONF_DOCUMENT_NUMBER: UPDATED_LICENSE,
+        },
+    )
+    await hass.async_block_till_done()
+
+    assert reconfigure_flow["type"] is FlowResultType.FORM
+    assert reconfigure_flow["errors"] == {"base": "invalid_type"}

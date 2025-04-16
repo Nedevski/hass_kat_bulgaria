@@ -19,6 +19,8 @@ from custom_components.kat_bulgaria.config_flow import (
 
 from . import (
     BULSTAT_VALID,
+    CONF_BULSTAT,
+    CONF_DOCUMENT_TYPE,
     EGN_VALID,
     MOCK_DATA_BUSINESS,
     MOCK_DATA_BUSINESS_FULL,
@@ -42,7 +44,8 @@ async def test_flow_init_individual(hass: HomeAssistant) -> None:
 
     config_flow_individual = await hass.config_entries.flow.async_configure(
         config_flow_user["flow_id"], user_input={
-            "next_step_id": STEP_ID_INDIVIDUAL}
+            "next_step_id": STEP_ID_INDIVIDUAL
+        }
     )
     await hass.async_block_till_done()
 
@@ -62,7 +65,8 @@ async def test_flow_init_business(hass: HomeAssistant) -> None:
 
     config_flow_business = await hass.config_entries.flow.async_configure(
         config_flow_user["flow_id"], user_input={
-            "next_step_id": STEP_ID_BUSINESS}
+            "next_step_id": STEP_ID_BUSINESS
+        }
     )
     await hass.async_block_till_done()
 
