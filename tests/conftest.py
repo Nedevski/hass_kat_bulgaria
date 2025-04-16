@@ -8,7 +8,7 @@ import pytest
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 from custom_components.kat_bulgaria.config_flow import DOMAIN
-from custom_components.kat_bulgaria.const import CONF_DOCUMENT_TYPE, CONF_PERSON_TYPE
+from custom_components.kat_bulgaria.const import CONF_PERSON_TYPE
 
 from . import (
     EGN_VALID,

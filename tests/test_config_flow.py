@@ -19,8 +19,6 @@ from custom_components.kat_bulgaria.config_flow import (
 
 from . import (
     BULSTAT_VALID,
-    CONF_BULSTAT,
-    CONF_DOCUMENT_TYPE,
     EGN_VALID,
     MOCK_DATA_BUSINESS,
     MOCK_DATA_BUSINESS_FULL,
