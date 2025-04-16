@@ -8,10 +8,12 @@ import pytest
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 from custom_components.kat_bulgaria.config_flow import DOMAIN
+from custom_components.kat_bulgaria.const import CONF_DOCUMENT_TYPE, CONF_PERSON_TYPE
 
 from . import (
     EGN_VALID,
     MOCK_DATA_BUSINESS_FULL,
+    MOCK_DATA_INDIVIDUAL,
     MOCK_DATA_INDIVIDUAL_FULL,
     MOCK_DATA_V1,
 )
@@ -53,11 +55,27 @@ def mock_config_entry_v2_individual() -> MockConfigEntry:
 
 
 @pytest.fixture(name="config_entry_v2_business")
-def mock_config_entry_v2__business() -> MockConfigEntry:
+def mock_config_entry_v2_business() -> MockConfigEntry:
     """Fixture for a config entry."""
     return MockConfigEntry(
         domain=DOMAIN,
         data=MOCK_DATA_BUSINESS_FULL,
+        unique_id=EGN_VALID,
+        version=2,
+    )
+
+
+@pytest.fixture(name="config_entry_v2_invalid_person_type")
+def mock_config_entry_v2_invalid_person_type() -> MockConfigEntry:
+    """Fixture for a config entry."""
+    mock_data = {
+        CONF_PERSON_TYPE: "something invalid",
+        **MOCK_DATA_INDIVIDUAL
+    }
+
+    return MockConfigEntry(
+        domain=DOMAIN,
+        data=mock_data,
         unique_id=EGN_VALID,
         version=2,
     )

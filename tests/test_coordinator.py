@@ -329,3 +329,20 @@ async def test_coordinator_setup_api_unknownerror_business(
 
     assert result is False
     assert config_entry_v2_business.state == ConfigEntryState.SETUP_RETRY
+
+
+@pytest.mark.asyncio
+async def test_coordinator_setup_invalid_person_type(
+    hass: HomeAssistant,
+    config_entry_v2_invalid_person_type: MockConfigEntry,
+    mock_get_obligations_ok_nodata,
+) -> None:
+    """Test that the coordinator can update."""
+    assert config_entry_v2_invalid_person_type.state == ConfigEntryState.NOT_LOADED
+    config_entry_v2_invalid_person_type.add_to_hass(hass)
+
+    result = await hass.config_entries.async_setup(config_entry_v2_invalid_person_type.entry_id)
+    await hass.async_block_till_done()
+
+    assert result is False
+    assert config_entry_v2_invalid_person_type.state == ConfigEntryState.SETUP_ERROR
