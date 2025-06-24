@@ -17,7 +17,7 @@ CONF_BULSTAT = "business_bulstat"
 
 COORD_DATA_KEY = "obligations"
 
-DEFAULT_POLL_INTERVAL = timedelta(minutes=60)
+DEFAULT_POLL_INTERVAL = timedelta(minutes=90)
 
 
 class PersonType:
