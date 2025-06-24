@@ -3,6 +3,7 @@
 from unittest.mock import AsyncMock, patch
 
 from kat_bulgaria.errors import KatError, KatErrorSubtype, KatErrorType
+from kat_bulgaria.data_models import PersonalIdentificationType
 import pytest
 
 from homeassistant.core import HomeAssistant
@@ -19,6 +20,7 @@ from custom_components.kat_bulgaria.config_flow import (
 
 from . import (
     BULSTAT_VALID,
+    CAR_PLATE_INVALID,
     EGN_VALID,
     MOCK_DATA_BUSINESS,
     MOCK_DATA_BUSINESS_FULL,
@@ -255,6 +257,40 @@ async def test_flow_error_invalid_document_individual(hass: HomeAssistant) -> No
 
     assert config_result["type"] is FlowResultType.FORM
     assert config_result["errors"] == {"base": "invalid_config"}
+
+
+@pytest.mark.asyncio
+@patch(
+    PATCH_VALIDATE_CREDS_INDIVIDUAL,
+    AsyncMock(
+        side_effect=KatError(
+            KatErrorType.VALIDATION_ERROR,
+            KatErrorSubtype.VALIDATION_CAR_PLATE_NUMBER_INVALID,
+            "error text",
+        )
+    ),
+)
+async def test_flow_error_invalid_car_plate_number_individual(hass: HomeAssistant) -> None:
+    """Test config flow."""
+
+    config_flow_individual = await hass.config_entries.flow.async_init(
+        kat_constants.DOMAIN,
+        context={"source": STEP_ID_INDIVIDUAL},
+    )
+
+    config_result = await hass.config_entries.flow.async_configure(
+        config_flow_individual["flow_id"],
+        user_input={
+            **MOCK_DATA_INDIVIDUAL,
+            kat_constants.CONF_DOCUMENT_TYPE: PersonalIdentificationType.CAR_PLATE_NUM,
+            kat_constants.CONF_DOCUMENT_NUMBER: CAR_PLATE_INVALID,
+        },
+    )
+    await hass.async_block_till_done()
+
+    assert config_result["type"] is FlowResultType.FORM
+    assert config_result["errors"] == {
+        "base": "invalid_config_car_plate_number"}
 
 
 @pytest.mark.asyncio

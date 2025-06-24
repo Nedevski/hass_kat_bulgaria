@@ -309,14 +309,6 @@ class ConfigFlowHandler(ConfigFlow, domain=DOMAIN):
         try:
             await kat_client.validate_credentials()
         except KatError as err:
-            if err.error_type == KatErrorType.VALIDATION_ERROR:
-                _LOGGER.warning(
-                    "Invalid credentials, unable to setup: %s - %s",
-                    err.error_type,
-                    err.error_subtype,
-                )
-                errors["base"] = "invalid_config"
-
             if (
                 err.error_type == KatErrorType.VALIDATION_ERROR
                 and err.error_subtype
@@ -329,7 +321,15 @@ class ConfigFlowHandler(ConfigFlow, domain=DOMAIN):
                 )
                 errors["base"] = "invalid_config_car_plate_number"
 
-            if err.error_type == KatErrorType.API_ERROR:
+            elif err.error_type == KatErrorType.VALIDATION_ERROR:
+                _LOGGER.warning(
+                    "Invalid credentials, unable to setup: %s - %s",
+                    err.error_type,
+                    err.error_subtype,
+                )
+                errors["base"] = "invalid_config"
+
+            elif err.error_type == KatErrorType.API_ERROR:
                 _LOGGER.warning(
                     "KAT API down, unable to setup: %s - %s",
                     err.error_type,
