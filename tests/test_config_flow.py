@@ -3,7 +3,6 @@
 from unittest.mock import AsyncMock, patch
 
 from kat_bulgaria.errors import KatError, KatErrorSubtype, KatErrorType
-from kat_bulgaria.data_models import PersonalIdentificationType
 import pytest
 
 from homeassistant.core import HomeAssistant
