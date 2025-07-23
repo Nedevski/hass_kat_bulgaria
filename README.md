@@ -7,6 +7,7 @@
 [![Code coverage](https://img.shields.io/sonar/coverage/Nedevski_hass_kat_bulgaria?server=https%3A%2F%2Fsonarcloud.io&style=flat-square)](https://sonarcloud.io/component_measures?id=Nedevski_hass_kat_bulgaria&metric=coverage&view=list)
 
 Тази интеграция позволява да се следят наличните глоби към КАТ България. Интеграцията взима информацията директно от официалния сайт на КАТ ([e-uslugi.mvr.bg](https://e-uslugi.mvr.bg/services/kat-obligations)) без да логва абсолютно нищо. Единственото място на което се пазят данните е локално, като конфигурация на интеграцията.
+
 ![Config flow](https://raw.githubusercontent.com/Nedevski/hass_kat_bulgaria/main/images/screenshots-bg.png)
 
 ## Инсталиране
